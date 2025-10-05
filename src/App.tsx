@@ -12,6 +12,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { config } from "./lib/wagmi";
 
 // Lazy load pages for better performance
+const LandingPage = lazy(() => import("./pages/LandingPage"));
 const GamePage = lazy(() => import("./pages/game/GamePage"));
 const LeaderboardPage = lazy(() => import("./pages/LeaderboardPage"));
 const SocialLeaderboardPage = lazy(() => import("./pages/SocialLeaderboardPage"));
@@ -21,6 +22,7 @@ const ReactiveQuestPage = lazy(() => import("./pages/ReactiveQuestPage"));
 const InteractiveLearningPage = lazy(() => import("./pages/InteractiveLearningPage"));
 const EnhancedRewardsPage = lazy(() => import("./pages/EnhancedRewardsPage"));
 const MockDataDemo = lazy(() => import("./pages/MockDataDemo"));
+const NFTDashboard = lazy(() => import("./components/nft/NFTDashboard"));
 
       // Enhanced features - lazy loaded
       const CareerPathSystem = lazy(() => import("./components/career/CareerPathSystem"));
@@ -55,13 +57,16 @@ const App = () => (
               </div>
             }>
               <Routes>
-                <Route path="/" element={<MobileResponsiveWrapper><Index /></MobileResponsiveWrapper>} />
+                <Route path="/" element={<MobileResponsiveWrapper><LandingPage /></MobileResponsiveWrapper>} />
+                <Route path="/home" element={<MobileResponsiveWrapper><Index /></MobileResponsiveWrapper>} />
                 <Route path="/play" element={<MobileResponsiveWrapper><GamePage /></MobileResponsiveWrapper>} />
                 <Route path="/game" element={<MobileResponsiveWrapper><GamePage /></MobileResponsiveWrapper>} />
                 <Route path="/leaderboard" element={<MobileResponsiveWrapper><LeaderboardPage /></MobileResponsiveWrapper>} />
                 <Route path="/social-leaderboard" element={<MobileResponsiveWrapper><SocialLeaderboardPage /></MobileResponsiveWrapper>} />
                 <Route path="/tournaments" element={<MobileResponsiveWrapper><SocialLeaderboardPage /></MobileResponsiveWrapper>} />
                 <Route path="/achievements" element={<MobileResponsiveWrapper><AchievementsPage /></MobileResponsiveWrapper>} />
+                <Route path="/nfts" element={<MobileResponsiveWrapper><NFTDashboard /></MobileResponsiveWrapper>} />
+                <Route path="/nft" element={<MobileResponsiveWrapper><NFTDashboard /></MobileResponsiveWrapper>} />
                 <Route path="/learn" element={<MobileResponsiveWrapper><LearnWeb3Page /></MobileResponsiveWrapper>} />
                 <Route path="/learn-web3" element={<MobileResponsiveWrapper><LearnWeb3Page /></MobileResponsiveWrapper>} />
                 <Route path="/reactive-quest" element={<MobileResponsiveWrapper><ReactiveQuestPage /></MobileResponsiveWrapper>} />

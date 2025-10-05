@@ -1319,3 +1319,254 @@ export const REACTIVE_QUESTS: ReactiveQuest[] = [
 
 // Import ReactiveQuest interface at top of file
 import { ReactiveQuest } from './characters';
+
+export const NFT_CHARACTER_QUESTS: CharacterQuest[] = [
+  {
+    id: 'rush-runner-highscore-challenge',
+    characterId: 'rush-runner',
+    title: 'Neon Trail High Score',
+    description: 'Break speed records and unlock new neon trails.',
+    longDescription: `Rush Runner challenges you to reach new high score milestones. Every combo chain and mile run unlocks new visual upgrades and story chapters.`,
+    chapter: 1,
+    questType: 'main',
+    difficulty: 'medium',
+    prerequisites: [
+      { type: 'character', value: 'rush-runner', description: 'Must have Rush Runner NFT.' }
+    ],
+    levelRequirement: 1,
+    relationshipRequirement: 0,
+    objectives: [
+      {
+        id: 'combo-chain',
+        title: 'Achieve 10 combo chains',
+        description: 'Sustain 10 combo chains in a single run.',
+        type: 'achieve',
+        target: 10,
+        current: 0,
+        isCompleted: false,
+        isOptional: false,
+        trackingData: { specificActions: ['combo_chain'] }
+      },
+      {
+        id: 'miles-run',
+        title: 'Run 50 miles',
+        description: 'Accumulate 50 miles in endless mode.',
+        type: 'collect',
+        target: 50,
+        current: 0,
+        isCompleted: false,
+        isOptional: false,
+        trackingData: { itemType: 'miles_run' }
+      },
+      {
+        id: 'score-milestone',
+        title: 'Reach 10,000 score',
+        description: 'Hit a score of 10,000 in any run.',
+        type: 'achieve',
+        target: 10000,
+        current: 0,
+        isCompleted: false,
+        isOptional: false,
+        trackingData: { minimumScore: 10000 }
+      }
+    ],
+    startDialogue: [
+      "Let's blaze a new trail! Combo chains and high scores unlock my true power.",
+      "Every mile run leaves a mark on the metaverse. Ready to sprint?"
+    ],
+    progressDialogue: {
+      'combo-chain': ["Combo streaks are the key to speed!", "Keep chaining for neon upgrades!"],
+      'miles-run': ["Miles add up. The longer you run, the brighter your trail."],
+      'score-milestone': ["Score milestone reached! My neon legs are glowing."]
+    },
+    completionDialogue: [
+      "You broke the record! My neon trail is now legendary.",
+      "Let's keep running – the metaverse is endless."
+    ],
+    rewards: [
+      { type: 'nft', item: 'rush_runner_evolved', rarity: 'epic', description: 'Rush Runner Evolved NFT' },
+      { type: 'rush_tokens', amount: 500, description: 'Speed Bonus' }
+    ],
+    relationshipChanges: { 'rush-runner': 20 },
+    unlocksStories: ['rush-runner-legend'],
+    unlocksFeatures: ['neon_trail_upgrade'],
+    isRepeatable: true
+  },
+  {
+    id: 'guardian-towers-defense-trial',
+    characterId: 'guardian-towers',
+    title: 'Elemental Defense Trial',
+    description: 'Defend towers against waves to unlock elemental powers.',
+    longDescription: `Guardian of the Towers tasks you with surviving increasingly difficult waves. Each milestone unlocks new shields and elemental upgrades.`,
+    chapter: 1,
+    questType: 'main',
+    difficulty: 'hard',
+    prerequisites: [
+      { type: 'character', value: 'guardian-towers', description: 'Must have Guardian NFT.' }
+    ],
+    levelRequirement: 5,
+    relationshipRequirement: 0,
+    objectives: [
+      {
+        id: 'waves-survived',
+        title: 'Survive 20 waves',
+        description: 'Defend towers for 20 consecutive waves.',
+        type: 'achieve',
+        target: 20,
+        current: 0,
+        isCompleted: false,
+        isOptional: false,
+        trackingData: { specificActions: ['wave_survival'] }
+      },
+      {
+        id: 'shield-activation',
+        title: 'Activate Elemental Shield 5 times',
+        description: 'Use Elemental Shield skill 5 times.',
+        type: 'use',
+        target: 5,
+        current: 0,
+        isCompleted: false,
+        isOptional: false,
+        trackingData: { specificActions: ['elemental_shield'] }
+      }
+    ],
+    startDialogue: [
+      "The towers must stand. Survive the waves and unlock elemental power.",
+      "Every defense strengthens our fortress."
+    ],
+    progressDialogue: {
+      'waves-survived': ["Wave after wave, our defenses grow.", "Elemental runes glow brighter with each survival."],
+      'shield-activation': ["Shield activated! The elements are with us."]
+    },
+    completionDialogue: [
+      "You are now an Elemental Warden. The towers are safe.",
+      "Let the elemental runes guide your next defense."
+    ],
+    rewards: [
+      { type: 'nft', item: 'guardian_elemental_warden', rarity: 'legendary', description: 'Elemental Warden NFT' },
+      { type: 'rush_tokens', amount: 800, description: 'Defense Bonus' }
+    ],
+    relationshipChanges: { 'guardian-towers': 25 },
+    unlocksStories: ['guardian-towers-ascendant'],
+    unlocksFeatures: ['elemental_shield_upgrade'],
+    isRepeatable: true
+  },
+  {
+    id: 'pixel-sharpshooter-chain-challenge',
+    characterId: 'pixel-sharpshooter',
+    title: 'Sharpshooter Chain Challenge',
+    description: 'Achieve kill chains and unlock time manipulation.',
+    longDescription: `Pixel Sharpshooter wants you to master kill chains and unlock the legendary Bullet Time skill. Precision and streaks are rewarded.`,
+    chapter: 1,
+    questType: 'main',
+    difficulty: 'medium',
+    prerequisites: [
+      { type: 'character', value: 'pixel-sharpshooter', description: 'Must have Sharpshooter NFT.' }
+    ],
+    levelRequirement: 3,
+    relationshipRequirement: 0,
+    objectives: [
+      {
+        id: 'kill-chains',
+        title: 'Achieve 15 kill chains',
+        description: 'Chain 15 kills in a single shooter match.',
+        type: 'achieve',
+        target: 15,
+        current: 0,
+        isCompleted: false,
+        isOptional: false,
+        trackingData: { specificActions: ['kill_chain'] }
+      },
+      {
+        id: 'time-slow',
+        title: 'Activate Time Slow 3 times',
+        description: 'Use Time Slow skill 3 times.',
+        type: 'use',
+        target: 3,
+        current: 0,
+        isCompleted: false,
+        isOptional: false,
+        trackingData: { specificActions: ['time_slow'] }
+      }
+    ],
+    startDialogue: [
+      "Precision is everything. Chain your shots and bend time.",
+      "Every perfect streak brings us closer to legend."
+    ],
+    progressDialogue: {
+      'kill-chains': ["Kill chain growing. Accuracy is rewarded.", "Keep chaining for legendary status."],
+      'time-slow': ["Time bends to your will. Use it wisely."]
+    },
+    completionDialogue: [
+      "Bullet Time unlocked! You are now a Chain Master.",
+      "Let’s set new records together."
+    ],
+    rewards: [
+      { type: 'nft', item: 'pixel_bullet_time_legend', rarity: 'epic', description: 'Bullet Time Legend NFT' },
+      { type: 'rush_tokens', amount: 600, description: 'Precision Bonus' }
+    ],
+    relationshipChanges: { 'pixel-sharpshooter': 18 },
+    unlocksStories: ['pixel-sharpshooter-legend'],
+    unlocksFeatures: ['bullet_time_skill'],
+    isRepeatable: true
+  },
+  {
+    id: 'tinker-tech-gadget-quest',
+    characterId: 'tinker-tech',
+    title: 'Gadgeteer’s Blueprint Quest',
+    description: 'Craft gadgets and trade blueprints for rewards.',
+    longDescription: `Tinker Tech challenges you to invent and trade gadgets. Every blueprint crafted and traded unlocks new buffs and marketplace features.`,
+    chapter: 1,
+    questType: 'main',
+    difficulty: 'medium',
+    prerequisites: [
+      { type: 'character', value: 'tinker-tech', description: 'Must have Tinker Tech NFT.' }
+    ],
+    levelRequirement: 2,
+    relationshipRequirement: 0,
+    objectives: [
+      {
+        id: 'gadgets-crafted',
+        title: 'Craft 8 gadgets',
+        description: 'Invent 8 unique gadgets.',
+        type: 'complete',
+        target: 8,
+        current: 0,
+        isCompleted: false,
+        isOptional: false,
+        trackingData: { specificActions: ['gadget_craft'] }
+      },
+      {
+        id: 'blueprints-traded',
+        title: 'Trade 10 blueprints',
+        description: 'Trade 10 blueprints in the marketplace.',
+        type: 'interact',
+        target: 10,
+        current: 0,
+        isCompleted: false,
+        isOptional: false,
+        trackingData: { specificActions: ['blueprint_trade'] }
+      }
+    ],
+    startDialogue: [
+      "Every gadget is a step forward. Let’s build and trade for greatness.",
+      "Marketplace is open – let’s make it thrive."
+    ],
+    progressDialogue: {
+      'gadgets-crafted': ["Gadget crafted! The workshop grows.", "Keep inventing for new buffs."],
+      'blueprints-traded': ["Blueprint traded! The economy is alive."]
+    },
+    completionDialogue: [
+      "Tech Overdrive unlocked! Your gadgets empower the metaverse.",
+      "Let’s invent the future together."
+    ],
+    rewards: [
+      { type: 'nft', item: 'tinker_tech_overdrive', rarity: 'epic', description: 'Tech Overdrive NFT' },
+      { type: 'rush_tokens', amount: 700, description: 'Gadget Bonus' }
+    ],
+    relationshipChanges: { 'tinker-tech': 22 },
+    unlocksStories: ['tinker-tech-legend'],
+    unlocksFeatures: ['gadget_buff_upgrade'],
+    isRepeatable: true
+  }
+];

@@ -12,7 +12,8 @@ export enum NFTType {
   POWERUP = 1,
   EVOLUTION = 2,
   LOOTBOX = 3,
-  SPECIAL = 4
+  SPECIAL = 4,
+  CHARACTER = 5 // Add character NFT type
 }
 
 export enum Rarity {
@@ -36,10 +37,22 @@ export interface NFTMetadata {
   category: string;
 }
 
+export interface NFTCharacterMetadata extends NFTMetadata {
+  characterClass: 'Rush Runner' | 'Guardian of the Towers' | 'Pixel Sharpshooter' | 'Tinker Tech';
+  evolutionStage: number;
+  skills: string[];
+  ultimateAbility: string;
+  storyArc: string;
+}
+
 export interface NFTDetails {
   tokenId: number;
   metadata: NFTMetadata;
   tokenURI: string;
+}
+
+export interface NFTCharacterDetails extends NFTDetails {
+  characterMetadata: NFTCharacterMetadata;
 }
 
 export interface PlayerStats {
@@ -110,6 +123,7 @@ export function useNFTSystem() {
   const { data: signer } = useSigner();
 
   const [playerNFTs, setPlayerNFTs] = useState<NFTDetails[]>([]);
+  const [playerCharacters, setPlayerCharacters] = useState<NFTCharacterDetails[]>([]);
   const [playerStats, setPlayerStats] = useState<PlayerStats | null>(null);
   const [powerBonus, setPowerBonus] = useState<number>(0);
   const [marketListings, setMarketListings] = useState<MarketListing[]>([]);
@@ -379,9 +393,122 @@ export function useNFTSystem() {
     loadMarketListings();
   }, [loadMarketListings]);
 
+  useEffect(() => {
+    // Load character NFTs
+    async function loadCharacters() {
+      if (!provider || !address || !NFT_SYSTEM_ADDRESS) return;
+
+      try {
+        const contract = new ethers.Contract(NFT_SYSTEM_ADDRESS, NFT_SYSTEM_ABI, provider);
+
+        // Get token IDs
+        const tokenIds: ethers.BigNumber[] = await contract.getPlayerNFTs(address);
+
+        // Get details for each character NFT
+        const characterNFTs: NFTCharacterDetails[] = await Promise.all(
+          tokenIds.map(async (tokenId) => {
+            const [metadata, uri] = await contract.getNFTDetails(tokenId);
+            if (metadata.nftType === NFTType.CHARACTER) {
+              return {
+                tokenId: tokenId.toNumber(),
+                metadata: {
+                  nftType: metadata.nftType,
+                  rarity: metadata.rarity,
+                  level: metadata.level.toNumber(),
+                  experiencePoints: metadata.experiencePoints.toNumber(),
+                  powerBonus: metadata.powerBonus.toNumber(),
+                  durationSeconds: metadata.durationSeconds.toNumber(),
+                  createdAt: metadata.createdAt.toNumber(),
+                  lastEvolved: metadata.lastEvolved.toNumber(),
+                  isActive: metadata.isActive,
+                  category: metadata.category,
+                  characterClass: metadata.category,
+                  evolutionStage: metadata.level.toNumber(),
+                  skills: metadata.skills || [],
+                  ultimateAbility: metadata.ultimateAbility || '',
+                  storyArc: metadata.storyArc || ''
+                },
+                tokenURI: uri,
+                characterMetadata: {
+                  ...metadata,
+                  characterClass: metadata.category,
+                  evolutionStage: metadata.level,
+                  skills: metadata.skills || [],
+                  ultimateAbility: metadata.ultimateAbility || '',
+                  storyArc: metadata.storyArc || ''
+                }
+              };
+            }
+          })
+        );
+
+        setPlayerCharacters(characterNFTs.filter(Boolean));
+      } catch (error) {
+        console.error('Error loading character NFTs:', error);
+      }
+    }
+
+    loadCharacters();
+  }, [provider, address]);
+
+  // Evolution function for character NFTs
+  const evolveCharacter = useCallback(
+    async (tokenId: number) => {
+      if (!signer || !NFT_SYSTEM_ADDRESS) throw new Error('Wallet not connected');
+
+      setIsLoading(true);
+      try {
+        const contract = new ethers.Contract(NFT_SYSTEM_ADDRESS, NFT_SYSTEM_ABI, signer);
+        const tx = await contract.evolveNFT(tokenId);
+        await tx.wait();
+
+        // Reload character data
+        const updatedCharacter = await contract.getNFTDetails(tokenId);
+        setPlayerCharacters((prev) =>
+          prev.map((char) => (char.tokenId === tokenId ? { ...char, metadata: updatedCharacter } : char))
+        );
+        return tx;
+      } catch (error) {
+        console.error('Error evolving character:', error);
+        throw error;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [signer]
+  );
+
+  // Award XP to character NFT
+  const awardCharacterXP = useCallback(
+    async (tokenId: number, xp: number) => {
+      if (!signer || !NFT_SYSTEM_ADDRESS) throw new Error('Wallet not connected');
+
+      setIsLoading(true);
+      try {
+        const contract = new ethers.Contract(NFT_SYSTEM_ADDRESS, NFT_SYSTEM_ABI, signer);
+        const tx = await contract.addExperience(tokenId, xp);
+        await tx.wait();
+
+        // Reload character data
+        const updatedCharacter = await contract.getNFTDetails(tokenId);
+        setPlayerCharacters((prev) =>
+          prev.map((char) => (char.tokenId === tokenId ? { ...char, metadata: updatedCharacter } : char))
+        );
+        return tx;
+      } catch (error) {
+        console.error('Error awarding XP to character:', error);
+        throw error;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [signer]
+  );
+
   return {
     // State
     playerNFTs,
+    playerCharacters,
     playerStats,
     powerBonus,
     marketListings,
@@ -396,7 +523,9 @@ export function useNFTSystem() {
     checkLootBoxEligibility,
     listNFTForSale,
     buyNFT,
-    loadMarketListings
+    loadMarketListings,
+    evolveCharacter,
+    awardCharacterXP
   };
 }
 

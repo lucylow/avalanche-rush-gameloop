@@ -1043,6 +1043,477 @@ Despite her mystical nature, Echo is deeply caring about the future of all netwo
   }
 ];
 
+export const NFT_CHARACTERS: Character[] = [
+  {
+    id: 'rush-runner',
+    name: 'Rush Runner',
+    title: 'The Neon Trailblazer',
+    rarity: 'Epic',
+    type: 'Warrior',
+    faction: 'Rush Seekers',
+    imageUrl: '/characters/rush-runner.png',
+    avatarUrl: '/avatars/rush-runner.png',
+    attributes: {
+      strength: 70,
+      intelligence: 65,
+      agility: 98,
+      defense: 55,
+      speed: 99,
+      luck: 80,
+      charisma: 60,
+      wisdom: 50
+    },
+    questBonus: 20,
+    tournamentBonus: 15,
+    stakingBonus: 10,
+    learningBonus: 10,
+    skills: ['Neon Dash', 'Combo Surge', 'Cybernetic Leap'],
+    specialAbilities: ['Speed Boost on Combo', 'Score Multiplier for Miles Run'],
+    ultimateAbility: 'Infinite Rush – Unlimited speed for 10 seconds',
+    backstory: `An agile explorer with cybernetic legs and neon trails, Rush Runner was the first to awaken in the fragmented metaverse. Their endless pursuit of high scores leaves glowing paths across Avalanche Rush, inspiring others to chase the impossible.`,
+    personality: ['Energetic', 'Competitive', 'Optimistic'],
+    motivation: 'To break every speed record and unlock the secrets of the metaverse.',
+    fears: ['Slowing down', 'Being outpaced', 'Losing momentum'],
+    relationships: {
+      'guardian-towers': 'Friendly rivalry – races to defend towers faster than Guardian.',
+      'pixel-sharpshooter': 'Respects precision, often teams up for combo challenges.',
+      'tinker-tech': 'Relies on gadgets for extra boosts.'
+    },
+    storyArcs: [
+      {
+        id: 'awakening-neon',
+        title: 'Awakening in Neon',
+        description: 'Rush Runner discovers their latent speed powers.',
+        chapter: 1,
+        unlockLevel: 1,
+        prerequisites: [],
+        scenes: [
+          {
+            id: 'first-run',
+            title: 'The First Run',
+            setting: 'Digital highway in Avalanche Rush',
+            description: 'Rush Runner sprints through collapsing code, unlocking their neon trail.',
+            dialogue: [
+              { speaker: 'Rush Runner', text: 'I was born to run. The faster I go, the clearer the path becomes.', emotion: 'excited' }
+            ],
+            outcome: 'Unlocks Neon Dash skill.',
+            unlocks: ['rush_runner_combo']
+          }
+        ],
+        rewards: [
+          { type: 'experience', amount: 100, description: 'Speed mastery XP' }
+        ]
+      }
+    ],
+    dialogues: {
+      greeting: [
+        { speaker: 'Rush Runner', text: 'Ready to break some records?', emotion: 'enthusiastic' }
+      ],
+      victory: [
+        { speaker: 'Rush Runner', text: 'That was lightning fast! Combo streaks for days!', emotion: 'ecstatic' }
+      ],
+      defeat: [
+        { speaker: 'Rush Runner', text: 'Even the fastest stumble. Let’s pick up the pace next time.', emotion: 'encouraging' }
+      ],
+      levelUp: [
+        { speaker: 'Rush Runner', text: 'Speed unlocked! My neon trail just got brighter.', emotion: 'amazed' }
+      ],
+      questStart: [
+        { speaker: 'Rush Runner', text: 'Let’s dash through this quest together!', emotion: 'excited' }
+      ],
+      questComplete: [
+        { speaker: 'Rush Runner', text: 'We left everyone in the dust!', emotion: 'proud' }
+      ],
+      achievement: [
+        { speaker: 'Rush Runner', text: 'Another milestone! My legs are built for this.', emotion: 'proud' }
+      ],
+      random: [
+        { speaker: 'Rush Runner', text: 'Combo chains are the secret to true speed.', emotion: 'mysterious' }
+      ]
+    },
+    unlockRequirements: [
+      { type: 'level', value: 1, description: 'Unlocked at game start.' }
+    ],
+    evolutionPath: [
+      {
+        stage: 1,
+        name: 'Combo Sprinter',
+        requirements: [
+          { type: 'score', value: 10000, description: 'Reach 10,000 score.' }
+        ],
+        changes: {
+          attributeBonus: { speed: 10, agility: 5 },
+          newSkills: ['Combo Surge'],
+          visualChanges: ['Neon trails intensify']
+        }
+      },
+      {
+        stage: 2,
+        name: 'Infinite Runner',
+        requirements: [
+          { type: 'score', value: 50000, description: 'Reach 50,000 score.' }
+        ],
+        changes: {
+          attributeBonus: { speed: 20, agility: 10 },
+          newSkills: ['Infinite Rush'],
+          visualChanges: ['Cybernetic legs glow', 'Trail leaves digital sparks']
+        }
+      }
+    ]
+  },
+  {
+    id: 'guardian-towers',
+    name: 'Guardian of the Towers',
+    title: 'Elemental Sentinel',
+    rarity: 'Legendary',
+    type: 'Guardian',
+    faction: 'Avalanche Defenders',
+    imageUrl: '/characters/guardian-towers.png',
+    avatarUrl: '/avatars/guardian-towers.png',
+    attributes: {
+      strength: 90,
+      intelligence: 70,
+      agility: 60,
+      defense: 99,
+      speed: 50,
+      luck: 65,
+      charisma: 80,
+      wisdom: 85
+    },
+    questBonus: 30,
+    tournamentBonus: 20,
+    stakingBonus: 25,
+    learningBonus: 15,
+    skills: ['Elemental Shield', 'Wave Fortify', 'Tower Pulse'],
+    specialAbilities: ['Shield Boost on Wave Survival', 'Attack Enhancement for High Waves'],
+    ultimateAbility: 'Fortress Ascendant – All towers gain invulnerability for 15 seconds',
+    backstory: `Forged in the elemental storms of Avalanche, Guardian stands watch over the towers. Their armor channels the power of earth, ice, and lightning, growing stronger as players defend against endless waves.`,
+    personality: ['Stoic', 'Protective', 'Strategic'],
+    motivation: 'To defend the last bastions of the metaverse from collapse.',
+    fears: ['Towers falling', 'Elemental imbalance', 'Losing allies'],
+    relationships: {
+      'rush-runner': 'Encourages speed, but values patience.',
+      'pixel-sharpshooter': 'Relies on sharpshooter’s precision for defense.',
+      'tinker-tech': 'Uses gadgets to reinforce towers.'
+    },
+    storyArcs: [
+      {
+        id: 'elemental-awakening',
+        title: 'Elemental Awakening',
+        description: 'Guardian unlocks elemental powers as towers survive longer.',
+        chapter: 1,
+        unlockLevel: 5,
+        prerequisites: [],
+        scenes: [
+          {
+            id: 'tower-defense',
+            title: 'Tower Defense',
+            setting: 'Avalanche’s elemental fortress',
+            description: 'Guardian channels elemental energy to repel invaders.',
+            dialogue: [
+              { speaker: 'Guardian', text: 'The longer we stand, the stronger we become.', emotion: 'determined' }
+            ],
+            outcome: 'Unlocks Elemental Shield skill.',
+            unlocks: ['guardian_wave_bonus']
+          }
+        ],
+        rewards: [
+          { type: 'experience', amount: 150, description: 'Defense mastery XP' }
+        ]
+      }
+    ],
+    dialogues: {
+      greeting: [
+        { speaker: 'Guardian', text: 'The towers stand tall. Ready your defenses.', emotion: 'neutral' }
+      ],
+      victory: [
+        { speaker: 'Guardian', text: 'No wave can breach our walls.', emotion: 'proud' }
+      ],
+      defeat: [
+        { speaker: 'Guardian', text: 'We learn from every breach. Next time, we’ll be stronger.', emotion: 'wise' }
+      ],
+      levelUp: [
+        { speaker: 'Guardian', text: 'Elemental powers surge within me.', emotion: 'amazed' }
+      ],
+      questStart: [
+        { speaker: 'Guardian', text: 'Let’s fortify the towers together.', emotion: 'encouraging' }
+      ],
+      questComplete: [
+        { speaker: 'Guardian', text: 'Victory is ours. The towers are safe.', emotion: 'proud' }
+      ],
+      achievement: [
+        { speaker: 'Guardian', text: 'A new shield forged. Our defenses grow.', emotion: 'amazed' }
+      ],
+      random: [
+        { speaker: 'Guardian', text: 'Elemental balance is key to survival.', emotion: 'mysterious' }
+      ]
+    },
+    unlockRequirements: [
+      { type: 'level', value: 5, description: 'Unlock by surviving 10 waves.' }
+    ],
+    evolutionPath: [
+      {
+        stage: 1,
+        name: 'Elemental Warden',
+        requirements: [
+          { type: 'score', value: 20000, description: 'Survive 20 waves.' }
+        ],
+        changes: {
+          attributeBonus: { defense: 15, strength: 10 },
+          newSkills: ['Wave Fortify'],
+          visualChanges: ['Armor glows with elemental runes']
+        }
+      },
+      {
+        stage: 2,
+        name: 'Fortress Ascendant',
+        requirements: [
+          { type: 'score', value: 100000, description: 'Survive 100 waves.' }
+        ],
+        changes: {
+          attributeBonus: { defense: 25, wisdom: 15 },
+          newSkills: ['Fortress Ascendant'],
+          visualChanges: ['Elemental aura surrounds towers']
+        }
+      }
+    ]
+  },
+  {
+    id: 'pixel-sharpshooter',
+    name: 'Pixel Sharpshooter',
+    title: 'The Futuristic Gunslinger',
+    rarity: 'Rare',
+    type: 'Assassin',
+    faction: 'Subnet Pioneers',
+    imageUrl: '/characters/pixel-sharpshooter.png',
+    avatarUrl: '/avatars/pixel-sharpshooter.png',
+    attributes: {
+      strength: 60,
+      intelligence: 80,
+      agility: 85,
+      defense: 50,
+      speed: 75,
+      luck: 90,
+      charisma: 70,
+      wisdom: 65
+    },
+    questBonus: 15,
+    tournamentBonus: 20,
+    stakingBonus: 10,
+    learningBonus: 10,
+    skills: ['Precision Shot', 'Time Slow', 'Kill Chain'],
+    specialAbilities: ['Accuracy Boost on Streak', 'Time Manipulation'],
+    ultimateAbility: 'Bullet Time – All enemies slow for 8 seconds',
+    backstory: `A gunslinger from the future, Pixel Sharpshooter customizes their arsenal for every challenge. Their precision is unmatched, and every kill chain brings them closer to legendary status.`,
+    personality: ['Focused', 'Cool-headed', 'Resourceful'],
+    motivation: 'To master every weapon and achieve the perfect streak.',
+    fears: ['Missing a shot', 'Losing focus', 'Being outgunned'],
+    relationships: {
+      'rush-runner': 'Teams up for combo runs.',
+      'guardian-towers': 'Provides cover fire for tower defense.',
+      'tinker-tech': 'Upgrades weapons with new tech.'
+    },
+    storyArcs: [
+      {
+        id: 'sharpshooter-origin',
+        title: 'Sharpshooter’s Origin',
+        description: 'Pixel unlocks time manipulation after a perfect streak.',
+        chapter: 1,
+        unlockLevel: 3,
+        prerequisites: [],
+        scenes: [
+          {
+            id: 'bullet-time',
+            title: 'Bullet Time',
+            setting: 'Digital shooting range',
+            description: 'Pixel achieves a kill chain, unlocking time slow.',
+            dialogue: [
+              { speaker: 'Pixel Sharpshooter', text: 'Every shot counts. Time bends to my will.', emotion: 'focused' }
+            ],
+            outcome: 'Unlocks Time Slow skill.',
+            unlocks: ['pixel_time_slow']
+          }
+        ],
+        rewards: [
+          { type: 'experience', amount: 120, description: 'Precision mastery XP' }
+        ]
+      }
+    ],
+    dialogues: {
+      greeting: [
+        { speaker: 'Pixel Sharpshooter', text: 'Locked and loaded. Ready for a perfect run?', emotion: 'neutral' }
+      ],
+      victory: [
+        { speaker: 'Pixel Sharpshooter', text: 'Flawless execution. The leaderboard is mine.', emotion: 'proud' }
+      ],
+      defeat: [
+        { speaker: 'Pixel Sharpshooter', text: 'Missed one. Next time, perfection.', emotion: 'focused' }
+      ],
+      levelUp: [
+        { speaker: 'Pixel Sharpshooter', text: 'My aim sharpens with every level.', emotion: 'amazed' }
+      ],
+      questStart: [
+        { speaker: 'Pixel Sharpshooter', text: 'Let’s set a new kill chain record.', emotion: 'excited' }
+      ],
+      questComplete: [
+        { speaker: 'Pixel Sharpshooter', text: 'Chain complete. Time for upgrades.', emotion: 'proud' }
+      ],
+      achievement: [
+        { speaker: 'Pixel Sharpshooter', text: 'Precision unlocked. My arsenal grows.', emotion: 'amazed' }
+      ],
+      random: [
+        { speaker: 'Pixel Sharpshooter', text: 'Accuracy is everything.', emotion: 'mysterious' }
+      ]
+    },
+    unlockRequirements: [
+      { type: 'level', value: 3, description: 'Unlock after 10 kill chains.' }
+    ],
+    evolutionPath: [
+      {
+        stage: 1,
+        name: 'Chain Master',
+        requirements: [
+          { type: 'score', value: 15000, description: 'Achieve 15 kill chains.' }
+        ],
+        changes: {
+          attributeBonus: { precision: 15, luck: 5 },
+          newSkills: ['Kill Chain'],
+          visualChanges: ['Weapons glow with pixel energy']
+        }
+      },
+      {
+        stage: 2,
+        name: 'Bullet Time Legend',
+        requirements: [
+          { type: 'score', value: 75000, description: 'Achieve 75 kill chains.' }
+        ],
+        changes: {
+          attributeBonus: { precision: 25, agility: 10 },
+          newSkills: ['Bullet Time'],
+          visualChanges: ['Outfit changes to legendary gunslinger']
+        }
+      }
+    ]
+  },
+  {
+    id: 'tinker-tech',
+    name: 'Tinker Tech',
+    title: 'The Gadgeteer',
+    rarity: 'Epic',
+    type: 'Support',
+    faction: 'DeFi Innovators',
+    imageUrl: '/characters/tinker-tech.png',
+    avatarUrl: '/avatars/tinker-tech.png',
+    attributes: {
+      strength: 55,
+      intelligence: 95,
+      agility: 70,
+      defense: 60,
+      speed: 65,
+      luck: 85,
+      charisma: 75,
+      wisdom: 80
+    },
+    questBonus: 18,
+    tournamentBonus: 12,
+    stakingBonus: 20,
+    learningBonus: 25,
+    skills: ['Blueprint Craft', 'Power-Up Drop', 'Gadget Swap'],
+    specialAbilities: ['Temporary Buffs', 'Marketplace Trading'],
+    ultimateAbility: 'Tech Overdrive – All teammates receive random buffs for 20 seconds',
+    backstory: `Inventive and resourceful, Tinker Tech crafts gadgets that change the course of every match. Their blueprints are highly sought after, and their inventions fuel the NFT economy of Avalanche Rush.`,
+    personality: ['Inventive', 'Helpful', 'Curious'],
+    motivation: 'To build the ultimate gadget and empower every player.',
+    fears: ['Running out of ideas', 'Failed inventions', 'Stagnant economy'],
+    relationships: {
+      'rush-runner': 'Provides speed gadgets.',
+      'guardian-towers': 'Reinforces defenses.',
+      'pixel-sharpshooter': 'Upgrades weapons with new tech.'
+    },
+    storyArcs: [
+      {
+        id: 'gadgeteer-awakening',
+        title: 'Gadgeteer Awakening',
+        description: 'Tinker Tech invents their first power-up blueprint.',
+        chapter: 1,
+        unlockLevel: 2,
+        prerequisites: [],
+        scenes: [
+          {
+            id: 'first-blueprint',
+            title: 'First Blueprint',
+            setting: 'Workshop in Avalanche Rush',
+            description: 'Tinker Tech crafts a gadget that drops power-ups.',
+            dialogue: [
+              { speaker: 'Tinker Tech', text: 'Every problem is a blueprint waiting to be drawn.', emotion: 'enthusiastic' }
+            ],
+            outcome: 'Unlocks Blueprint Craft skill.',
+            unlocks: ['tinker_blueprint']
+          }
+        ],
+        rewards: [
+          { type: 'experience', amount: 110, description: 'Gadget mastery XP' }
+        ]
+      }
+    ],
+    dialogues: {
+      greeting: [
+        { speaker: 'Tinker Tech', text: 'Got a problem? I’ve got a gadget for that!', emotion: 'excited' }
+      ],
+      victory: [
+        { speaker: 'Tinker Tech', text: 'My inventions made all the difference!', emotion: 'proud' }
+      ],
+      defeat: [
+        { speaker: 'Tinker Tech', text: 'Back to the drawing board. Every loss is a lesson.', emotion: 'encouraging' }
+      ],
+      levelUp: [
+        { speaker: 'Tinker Tech', text: 'New blueprints unlocked. Let’s build something great.', emotion: 'amazed' }
+      ],
+      questStart: [
+        { speaker: 'Tinker Tech', text: 'Let’s craft some winning gadgets.', emotion: 'helpful' }
+      ],
+      questComplete: [
+        { speaker: 'Tinker Tech', text: 'Gadget deployed. Victory achieved!', emotion: 'proud' }
+      ],
+      achievement: [
+        { speaker: 'Tinker Tech', text: 'Blueprint complete. Marketplace, here I come!', emotion: 'amazed' }
+      ],
+      random: [
+        { speaker: 'Tinker Tech', text: 'Trading blueprints keeps the economy alive.', emotion: 'mysterious' }
+      ]
+    },
+    unlockRequirements: [
+      { type: 'level', value: 2, description: 'Unlock after crafting first blueprint.' }
+    ],
+    evolutionPath: [
+      {
+        stage: 1,
+        name: 'Gadget Master',
+        requirements: [
+          { type: 'score', value: 8000, description: 'Craft 8 gadgets.' }
+        ],
+        changes: {
+          attributeBonus: { intelligence: 10, luck: 10 },
+          newSkills: ['Power-Up Drop'],
+          visualChanges: ['Workshop fills with animated gadgets']
+        }
+      },
+      {
+        stage: 2,
+        name: 'Tech Overdrive',
+        requirements: [
+          { type: 'score', value: 40000, description: 'Trade 40 blueprints.' }
+        ],
+        changes: {
+          attributeBonus: { intelligence: 20, charisma: 10 },
+          newSkills: ['Tech Overdrive'],
+          visualChanges: ['Gadget aura glows', 'Marketplace badge appears']
+        }
+      }
+    ]
+  }
+];
+
 // Reactive Smart Contract Integration Types
 export interface ReactiveEvent {
   eventType: 'transfer' | 'swap' | 'nft_mint' | 'contract_interaction' | 'quest_completion';

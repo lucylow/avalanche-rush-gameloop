@@ -559,5 +559,5 @@ export const useAvalancheFeatures = () => {
   };
 };
 
-export { AuthProvider, AuthContext } from '../auth/AuthProvider';
+export { AuthProvider, AuthContext } from '../../auth/AuthProvider';
 
