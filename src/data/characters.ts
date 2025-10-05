@@ -1661,19 +1661,29 @@ export interface WeightedResponse {
 
 // Character utility functions
 export const getCharacterById = (id: string): Character | undefined => {
-  return AVALANCHE_CHARACTERS.find(char => char.id === id);
+  // Search both main and NFT characters
+  return [...AVALANCHE_CHARACTERS, ...NFT_CHARACTERS].find(char => char.id === id);
 };
 
 export const getCharactersByFaction = (faction: Character['faction']): Character[] => {
-  return AVALANCHE_CHARACTERS.filter(char => char.faction === faction);
+  // Search both main and NFT characters
+  return [...AVALANCHE_CHARACTERS, ...NFT_CHARACTERS].filter(char => char.faction === faction);
 };
 
 export const getCharactersByRarity = (rarity: Character['rarity']): Character[] => {
-  return AVALANCHE_CHARACTERS.filter(char => char.rarity === rarity);
+  // Search both main and NFT characters
+  return [...AVALANCHE_CHARACTERS, ...NFT_CHARACTERS].filter(char => char.rarity === rarity);
 };
 
-export const getUnlockedCharacters = (playerLevel: number, achievements: string[], completedQuests: string[]): Character[] => {
-  return AVALANCHE_CHARACTERS.filter(character => {
+export const getUnlockedCharacters = (
+  playerLevel: number,
+  achievements: string[],
+  completedQuests: string[],
+  unlockedIds: string[] = []
+): Character[] => {
+  // Combine all characters
+  const allChars = [...AVALANCHE_CHARACTERS, ...NFT_CHARACTERS];
+  return allChars.filter(character => {
     return character.unlockRequirements.every(requirement => {
       switch (requirement.type) {
         case 'level':
@@ -1683,9 +1693,13 @@ export const getUnlockedCharacters = (playerLevel: number, achievements: string[
         case 'quest':
           return completedQuests.includes(requirement.value as string);
         case 'character': {
-          // Check if required character is unlocked
-          const requiredChar = getCharacterById(requirement.value as string);
-          return requiredChar ? getUnlockedCharacters(playerLevel, achievements, completedQuests).includes(requiredChar) : false;
+          // Prevent infinite recursion by checking unlockedIds
+          const requiredId = requirement.value as string;
+          if (unlockedIds.includes(requiredId)) return true;
+          const requiredChar = getCharacterById(requiredId);
+          return requiredChar
+            ? getUnlockedCharacters(playerLevel, achievements, completedQuests, [...unlockedIds, character.id]).includes(requiredChar)
+            : false;
         }
         default:
           return true;
@@ -1694,9 +1708,11 @@ export const getUnlockedCharacters = (playerLevel: number, achievements: string[
   });
 };
 
-export const getRandomDialogue = (character: Character, type: keyof Character['dialogues']): DialogueNode | null => {
+export const getRandomDialogue = (
+  character: Character,
+  type: keyof Character['dialogues']
+): DialogueNode | null => {
   const dialogues = character.dialogues[type];
   if (!dialogues || dialogues.length === 0) return null;
-  
   return dialogues[Math.floor(Math.random() * dialogues.length)];
 };
