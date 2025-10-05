@@ -1,5 +1,5 @@
 // @ts-nocheck - TODO: Migrate to ethers v6
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { ethers } from 'ethers';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 
@@ -64,6 +64,16 @@ export function useGameLoop() {
   const { address } = useAccount();
   const publicClient = usePublicClient();
   const { data: walletClient } = useWalletClient();
+
+  // Fix: Define signer using walletClient if available
+  const signer = useMemo(() => {
+    if (walletClient && walletClient.transport && walletClient.account) {
+      // ethers v6: use JsonRpcSigner from provider
+      const provider = new ethers.BrowserProvider(walletClient.transport);
+      return provider.getSigner(walletClient.account.address);
+    }
+    return null;
+  }, [walletClient]);
 
   const [activeTournaments, setActiveTournaments] = useState<Tournament[]>([]);
   const [currentTournament, setCurrentTournament] = useState<Tournament | null>(null);
@@ -140,7 +150,12 @@ export function useGameLoop() {
    * REPLACES: Reactive registration
    */
   const registerForTournament = useCallback(async (tournamentId: number) => {
-    if (!signer || !address) {
+    // Fix: Await signer if it's a Promise
+    let resolvedSigner = signer;
+    if (signer && typeof (signer as any).then === 'function') {
+      resolvedSigner = await signer;
+    }
+    if (!resolvedSigner || !address) {
       throw new Error('Wallet not connected');
     }
 
@@ -149,7 +164,7 @@ export function useGameLoop() {
       const writeContract = new ethers.Contract(
         GAMELOOP_CONTRACT_ADDRESS,
         GAMELOOP_ABI,
-        signer
+        resolvedSigner
       );
 
       const tx = await writeContract.registerForTournament(tournamentId);
@@ -171,7 +186,11 @@ export function useGameLoop() {
    * REPLACES: Reactive automatic score tracking
    */
   const submitScore = useCallback(async (tournamentId: number, score: number) => {
-    if (!signer || !address) {
+    let resolvedSigner = signer;
+    if (signer && typeof (signer as any).then === 'function') {
+      resolvedSigner = await signer;
+    }
+    if (!resolvedSigner || !address) {
       throw new Error('Wallet not connected');
     }
 
@@ -180,7 +199,7 @@ export function useGameLoop() {
       const writeContract = new ethers.Contract(
         GAMELOOP_CONTRACT_ADDRESS,
         GAMELOOP_ABI,
-        signer
+        resolvedSigner
       );
 
       const tx = await writeContract.submitScore(tournamentId, score);
@@ -202,7 +221,11 @@ export function useGameLoop() {
    * REPLACES: Reactive reward distribution
    */
   const claimReward = useCallback(async (tournamentId: number) => {
-    if (!signer || !address) {
+    let resolvedSigner = signer;
+    if (signer && typeof (signer as any).then === 'function') {
+      resolvedSigner = await signer;
+    }
+    if (!resolvedSigner || !address) {
       throw new Error('Wallet not connected');
     }
 
@@ -211,7 +234,7 @@ export function useGameLoop() {
       const writeContract = new ethers.Contract(
         GAMELOOP_CONTRACT_ADDRESS,
         GAMELOOP_ABI,
-        signer
+        resolvedSigner
       );
 
       const tx = await writeContract.claimReward(tournamentId);
