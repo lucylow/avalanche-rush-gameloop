@@ -83,6 +83,8 @@ interface ScorePopupProps {
 export const ScorePopup: React.FC<ScorePopupProps> = ({ 
   score, x, y, color = '#F59E0B' 
 }) => {
+  // Add pulsing effect for high scores
+  const isHighScore = score >= 10000;
   return (
     <motion.div
       initial={{ 
@@ -94,26 +96,36 @@ export const ScorePopup: React.FC<ScorePopupProps> = ({
       }}
       animate={{ 
         opacity: [0, 1, 1, 0],
-        scale: [0.5, 1.2, 1, 0.8],
-        y: y - 100,
+        scale: isHighScore ? [0.7, 1.4, 1, 0.8] : [0.5, 1.2, 1, 0.8],
+        y: y - (isHighScore ? 140 : 100),
         rotate: [10, 0, -10]
       }}
       exit={{ opacity: 0, scale: 0 }}
       transition={{ 
-        duration: 1.5,
+        duration: isHighScore ? 2 : 1.5,
         ease: "easeOut"
       }}
-      className="absolute pointer-events-none z-50"
+      className={`absolute pointer-events-none z-50 ${isHighScore ? 'animate-pulse' : ''}`}
       style={{ left: x, top: y }}
     >
       <div 
-        className="text-2xl font-black text-white px-4 py-2 rounded-lg shadow-2xl"
+        className={`text-2xl font-black text-white px-4 py-2 rounded-lg shadow-2xl ${isHighScore ? 'border-4 border-yellow-400 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400' : ''}`}
         style={{
-          background: `linear-gradient(45deg, ${color}, ${color}dd)`,
-          textShadow: '0 0 10px rgba(0,0,0,0.5)'
+          background: isHighScore
+            ? undefined
+            : `linear-gradient(45deg, ${color}, ${color}dd)`,
+          textShadow: isHighScore
+            ? '0 0 20px #FFD700, 0 0 40px #FFA500'
+            : '0 0 10px rgba(0,0,0,0.5)'
         }}
       >
-        +{score}
+        {isHighScore ? (
+          <span>
+            <span className="text-3xl animate-bounce">🏆</span> +{score} <span className="text-lg">HIGH SCORE!</span>
+          </span>
+        ) : (
+          <>+{score}</>
+        )}
       </div>
     </motion.div>
   );

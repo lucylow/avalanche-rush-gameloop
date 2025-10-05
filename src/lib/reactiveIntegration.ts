@@ -564,3 +564,18 @@ export class ReactiveAnalytics {
     };
   }
 }
+
+// Avalanche event processor for frontend/game logic
+export function processAvalancheGameEvent(eventName: string, args: any, event: any) {
+  switch (eventName) {
+    case 'GameSessionCompleted':
+      // Example: update leaderboard, notify user, etc.
+      const [player, score, timestamp] = args;
+      console.log(`Avalanche GameSessionCompleted: Player ${player}, Score ${score}, Timestamp ${timestamp}`);
+      // Trigger UI update or backend sync here
+      break;
+    // Add more event handlers as needed
+    default:
+      console.log(`Unhandled Avalanche event: ${eventName}`, args);
+  }
+}

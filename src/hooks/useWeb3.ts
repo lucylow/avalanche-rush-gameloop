@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
+import { AVALANCHE_CONFIG, getCurrentNetwork } from '../config/avalanche';
 
 // Contract ABIs (simplified for demo)
 const GAME_LOGIC_ABI = [
@@ -49,11 +50,11 @@ interface Web3State {
 }
 
 const CONTRACT_ADDRESSES: ContractAddresses = {
-  gameLogic: process.env.REACT_APP_GAME_LOGIC_ADDRESS || '',
-  rushToken: process.env.REACT_APP_RUSH_TOKEN_ADDRESS || '',
-  educationalNFT: process.env.REACT_APP_EDUCATIONAL_NFT_ADDRESS || '',
-  mockDEX: process.env.REACT_APP_MOCK_DEX_ADDRESS || '',
-  reactiveQuestEngine: process.env.REACT_APP_REACTIVE_QUEST_ENGINE_ADDRESS || ''
+  gameLogic: AVALANCHE_CONFIG.contracts.gameLeaderboard,
+  rushToken: AVALANCHE_CONFIG.contracts.rushToken,
+  educationalNFT: AVALANCHE_CONFIG.contracts.educationalNFT,
+  mockDEX: AVALANCHE_CONFIG.contracts.mockDEX,
+  reactiveQuestEngine: AVALANCHE_CONFIG.contracts.reactiveQuestEngine
 };
 
 export const useWeb3 = () => {

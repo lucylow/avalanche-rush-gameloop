@@ -582,4 +582,26 @@ export class SmartContractService {
   }
 }
 
+// Avalanche C-Chain WebSocket event listener utility
+export function startAvalancheEventListener(contractAddress: string, abi: any, onEvent: (eventName: string, args: any, event: any) => void) {
+  // Use a public Avalanche C-Chain WebSocket endpoint
+  const AVALANCHE_WS_URL = 'wss://ava-mainnet.public.blastapi.io/ext/bc/C/ws';
+  const provider = new ethers.WebSocketProvider(AVALANCHE_WS_URL);
+
+  const contract = new ethers.Contract(contractAddress, abi, provider);
+
+  // Listen for all events in the ABI
+  abi.forEach((item: string) => {
+    if (item.startsWith('event ')) {
+      const eventName = item.split(' ')[1].split('(')[0];
+      contract.on(eventName, (...args) => {
+        const event = args[args.length - 1];
+        onEvent(eventName, args, event);
+      });
+    }
+  });
+
+  return contract;
+}
+
 export default SmartContractService;
