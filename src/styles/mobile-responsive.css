@@ -1,0 +1,405 @@
+/* Mobile Responsive Styles for Avalanche Rush */
+
+/* Base Mobile Styles */
+@media (max-width: 768px) {
+  /* Main Container Adjustments */
+  .avalanche-rush-container {
+    padding: 1rem;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Header Mobile Optimization */
+  .game-header {
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+  }
+
+  .game-header h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .wallet-connector-mobile {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Player Profile Card Mobile */
+  .player-profile-card {
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+
+  .player-profile-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .profile-stat-item {
+    padding: 0.75rem;
+    text-align: center;
+  }
+
+  /* Action Buttons Mobile Grid */
+  .action-buttons-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .action-button {
+    padding: 1rem 0.5rem;
+    font-size: 0.875rem;
+    min-height: 80px;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .action-button .icon {
+    font-size: 1.5rem;
+  }
+
+  .action-button .text {
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+
+  /* Tutorial Banner Mobile */
+  .tutorial-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .tutorial-banner .content {
+    order: 1;
+  }
+
+  .tutorial-banner .button {
+    order: 2;
+    width: 100%;
+    padding: 0.75rem;
+  }
+
+  /* Game Mode Selector Mobile */
+  .game-mode-selector {
+    padding: 1rem;
+    margin: 0.5rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .game-mode-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .game-mode-card {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .game-mode-card .icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Game Engine Mobile Controls */
+  .game-controls-mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+  }
+
+  .mobile-control-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .mobile-control-button:active {
+    transform: scale(0.95);
+  }
+
+  /* Game Canvas Mobile */
+  .game-canvas-container {
+    width: 100%;
+    height: calc(100vh - 200px);
+    position: relative;
+    margin-bottom: 80px;
+  }
+
+  .game-canvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  }
+
+  /* Notifications Mobile */
+  .notification-mobile {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 1001;
+    padding: 0.75rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    font-size: 0.875rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Modal Mobile Optimization */
+  .modal-mobile {
+    padding: 1rem;
+    margin: 0.5rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-header-mobile {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  /* Tutorial Mobile */
+  .tutorial-mobile {
+    padding: 1rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .tutorial-step-mobile {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .tutorial-step-mobile h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .tutorial-step-mobile p {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* Character Selection Mobile */
+  .character-grid-mobile {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .character-card-mobile {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .character-avatar-mobile {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 0.5rem;
+  }
+
+  /* Achievement Mobile */
+  .achievement-grid-mobile {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .achievement-card-mobile {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  /* Leaderboard Mobile */
+  .leaderboard-mobile {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .leaderboard-item-mobile {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* NFT Marketplace Mobile */
+  .nft-grid-mobile {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .nft-card-mobile {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .nft-image-mobile {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Small Mobile Devices (iPhone SE, etc.) */
+@media (max-width: 480px) {
+  .avalanche-rush-container {
+    padding: 0.5rem;
+  }
+
+  .action-buttons-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .action-button {
+    padding: 0.75rem;
+    min-height: 70px;
+  }
+
+  .action-button .icon {
+    font-size: 1.25rem;
+  }
+
+  .action-button .text {
+    font-size: 0.7rem;
+  }
+
+  .game-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .player-profile-card {
+    padding: 0.75rem;
+  }
+
+  .mobile-control-button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+
+  .game-canvas-container {
+    height: calc(100vh - 180px);
+    margin-bottom: 70px;
+  }
+}
+
+/* Landscape Mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .game-canvas-container {
+    height: calc(100vh - 120px);
+    margin-bottom: 60px;
+  }
+
+  .game-controls-mobile {
+    padding: 0.5rem 1rem;
+  }
+
+  .mobile-control-button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+
+  .action-buttons-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .action-button {
+    min-height: 60px;
+    touch-action: manipulation;
+  }
+
+  .mobile-control-button {
+    touch-action: manipulation;
+  }
+
+  .game-mode-card {
+    min-height: 100px;
+    touch-action: manipulation;
+  }
+
+  .character-card-mobile {
+    min-height: 120px;
+    touch-action: manipulation;
+  }
+}
+
+/* High DPI Mobile Devices */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .game-canvas {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+
+  .character-avatar-mobile {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Dark Mode Mobile Optimizations */
+@media (prefers-color-scheme: dark) {
+  .notification-mobile {
+    background: rgba(0, 0, 0, 0.95);
+    color: white;
+  }
+
+  .modal-mobile {
+    background: rgba(0, 0, 0, 0.95);
+  }
+}
+
+/* Reduced Motion Mobile */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-control-button {
+    transition: none;
+  }
+
+  .action-button {
+    transition: none;
+  }
+}
+
+
+
+
+

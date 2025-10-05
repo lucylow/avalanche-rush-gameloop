@@ -1,0 +1,204 @@
+{
+  "name": "avalanche-rush-social",
+  "version": "1.0.0",
+  "description": "Avalanche Rush game with Lens Protocol and Farcaster social integration, tournaments, and leaderboards",
+  "dependencies": {
+    "@hookform/resolvers": "^3.10.0",
+    "@radix-ui/react-accordion": "^1.2.11",
+    "@radix-ui/react-alert-dialog": "^1.1.14",
+    "@radix-ui/react-aspect-ratio": "^1.1.7",
+    "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-checkbox": "^1.3.2",
+    "@radix-ui/react-collapsible": "^1.1.11",
+    "@radix-ui/react-context-menu": "^2.2.15",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-dropdown-menu": "^2.1.15",
+    "@radix-ui/react-hover-card": "^1.1.14",
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-menubar": "^1.1.15",
+    "@radix-ui/react-navigation-menu": "^1.2.13",
+    "@radix-ui/react-popover": "^1.1.14",
+    "@radix-ui/react-progress": "^1.1.7",
+    "@radix-ui/react-radio-group": "^1.3.7",
+    "@radix-ui/react-scroll-area": "^1.2.9",
+    "@radix-ui/react-select": "^2.2.5",
+    "@radix-ui/react-separator": "^1.1.7",
+    "@radix-ui/react-slider": "^1.3.5",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-switch": "^1.2.5",
+    "@radix-ui/react-tabs": "^1.1.12",
+    "@radix-ui/react-toast": "^1.2.14",
+    "@radix-ui/react-toggle": "^1.1.9",
+    "@radix-ui/react-toggle-group": "^1.1.10",
+    "@radix-ui/react-tooltip": "^1.2.7",
+    "@tanstack/react-query": "^5.83.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "date-fns": "^3.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "ethers": "^6.8.0",
+    "framer-motion": "^10.16.4",
+    "input-otp": "^1.4.2",
+    "lucide-react": "^0.462.0",
+    "next-themes": "^0.3.0",
+    "react": "^18.3.1",
+    "react-day-picker": "^8.10.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.61.1",
+    "react-resizable-panels": "^2.1.9",
+    "react-router-dom": "^6.30.1",
+    "recharts": "^2.15.4",
+    "sonner": "^1.7.4",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7",
+    "vaul": "^0.9.9",
+    "wagmi": "^2.0.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.32.0",
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/node": "^22.16.5",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react-swc": "^3.11.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.32.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^15.15.0",
+    "lovable-tagger": "^1.1.9",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0",
+    "vite": "^5.4.19"
+  },
+  "crossmint": {
+    "clientId": "avalanche-rush-client",
+    "environment": "staging",
+    "collections": {
+      "characters": {
+        "name": "Avalanche Rush Characters",
+        "description": "Unique game characters for Avalanche Rush",
+        "image": "/characters/collection-preview.png",
+        "externalLink": "https://avalanche-rush.lovable.app",
+        "sellerFeeBasisPoints": 500,
+        "symbol": "ARC"
+      }
+    },
+    "characters": [
+      {
+        "id": "avalanche-warrior",
+        "name": "Avalanche Warrior",
+        "rarity": "Epic",
+        "type": "Warrior",
+        "mintPrice": "0.1",
+        "currency": "AVAX",
+        "attributes": {
+          "strength": 85,
+          "intelligence": 60,
+          "agility": 70,
+          "defense": 90,
+          "speed": 65,
+          "luck": 50
+        },
+        "bonuses": {
+          "quest": 15,
+          "tournament": 10
+        }
+      },
+      {
+        "id": "rush-mage",
+        "name": "Rush Mage",
+        "rarity": "Legendary",
+        "type": "Mage",
+        "mintPrice": "0.25",
+        "currency": "AVAX",
+        "attributes": {
+          "strength": 40,
+          "intelligence": 95,
+          "agility": 80,
+          "defense": 60,
+          "speed": 85,
+          "luck": 70
+        },
+        "bonuses": {
+          "quest": 25,
+          "tournament": 20
+        }
+      },
+      {
+        "id": "reactive-ranger",
+        "name": "Reactive Ranger",
+        "rarity": "Rare",
+        "type": "Ranger",
+        "mintPrice": "0.15",
+        "currency": "AVAX",
+        "attributes": {
+          "strength": 70,
+          "intelligence": 75,
+          "agility": 95,
+          "defense": 65,
+          "speed": 90,
+          "luck": 80
+        },
+        "bonuses": {
+          "quest": 20,
+          "tournament": 15
+        }
+      }
+    ]
+  },
+  "social": {
+    "lens": {
+      "apiUrl": "https://api.lens.dev",
+      "network": "polygon",
+      "handles": {
+        "avalanche_rush": "Official Avalanche Rush channel",
+        "defi_masters": "DeFi Masters tournament channel",
+        "social_champions": "Social Influencer Championship"
+      }
+    },
+    "farcaster": {
+      "apiUrl": "https://api.warpcast.com/v2",
+      "channels": {
+        "avalanche-rush": "Official Avalanche Rush channel",
+        "defi-masters": "DeFi Masters tournament channel", 
+        "social-champions": "Social Influencer Championship",
+        "web3-gaming": "General Web3 gaming discussions",
+        "avalanche-ecosystem": "Avalanche ecosystem discussions"
+      }
+    },
+    "tournaments": {
+      "types": ["daily", "weekly", "seasonal", "community", "sponsored"],
+      "socialMultipliers": {
+        "lensFollower": 0.1,
+        "farcasterFollower": 0.05,
+        "engagement": 0.01,
+        "verifiedProfile": 5
+      },
+      "prizeDistribution": {
+        "first": 40,
+        "second": 25,
+        "third": 15,
+        "remaining": 20
+      }
+    }
+  },
+  "environment": {
+    "REACT_APP_LENS_API_URL": "https://api.lens.dev",
+    "REACT_APP_FARCASTER_API_URL": "https://api.warpcast.com/v2",
+    "REACT_APP_AVALANCHE_NETWORK": "fuji",
+    "REACT_APP_REACTIVE_NETWORK": "testnet",
+    "REACT_APP_TOURNAMENT_CONTRACT": "0x742d35Cc5A5E2a9E1aB8d8C6E6E9F4A5B8D35a9"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:dev": "vite build --mode development",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  }
+}
