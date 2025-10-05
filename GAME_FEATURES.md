@@ -79,9 +79,10 @@ The game features **5 unique visual themes** that change as you level up:
 ## 🎯 Scoring System
 
 ### Base Points
-- **Coin**: 10 points
-- **Energy Crystal**: Restores 25% energy (no points)
-- **Rare Gem**: 50 points
+- **Coin** 🪙: 10 points
+- **AVAX Token** 🔴: **100 points** (RARE!)
+- **Rare Gem** 💎: 50 points
+- **Energy Crystal** 💠: Restores 25% energy (no points)
 
 ### Multipliers
 - **Combo Multiplier**: +0.1x per consecutive collection
@@ -90,12 +91,14 @@ The game features **5 unique visual themes** that change as you level up:
 - **Special Abilities**: Character-specific bonuses
 
 ### High Score Tips
-1. **Maintain Combos**: Never miss a collectible!
-2. **Prioritize Gems**: 5x more valuable than coins
-3. **Use Magnet Power-up**: Collect everything nearby
-4. **Activate Multiplier**: 2x all points
-5. **Character Selection**: Choose characters with high quest bonuses
-6. **Special Abilities**: Use Q, E, R strategically
+1. **Prioritize AVAX Tokens**: 10x more valuable than coins!
+2. **Maintain Combos**: Never miss a collectible!
+3. **Collect Gems**: 5x more valuable than coins
+4. **Use Magnet Power-up**: Collect everything nearby
+5. **Activate Multiplier**: 2x all points
+6. **Character Selection**: Choose characters with high quest bonuses
+7. **Special Abilities**: Use Q, E, R strategically
+8. **Build Streaks**: Get achievement bonuses at milestones
 
 ## 🕹️ Controls
 
@@ -160,6 +163,34 @@ A **progress bar** at the bottom of the screen shows:
 - Points needed for next level
 - Progress percentage
 - "MAX LEVEL ACHIEVED" message at level 10
+
+## 🏆 Achievements
+
+Unlock special achievements as you play and get **epic celebrations**!
+
+### Score Milestones
+- **1,000 points**: "AVAX COLLECTOR!" 🎯
+- **5,000 points**: "AVALANCHE MASTER!" ⛰️
+- **10,000 points**: "LEGENDARY CHAMPION!" 👑
+
+### Combo Achievements
+- **10x Combo**: "COMBO KING!" 🔥
+
+Each achievement triggers a **full-screen celebration** with:
+- Animated banner with AVAX red gradient
+- Pulsing glow effects
+- Confetti explosion
+- 3-second display
+
+## 🎨 Avalanche Branding
+
+The game features **authentic Avalanche theming**:
+- ⛰️ Mountain logo throughout UI
+- 🔴 AVAX red color scheme (#E84142)
+- AVAX token collectibles with the iconic "A" symbol
+- Achievement banners in Avalanche red
+- "Built on Avalanche" branding
+- Instructions panel with Avalanche Rush header
 
 ## 🚀 Getting Started
 

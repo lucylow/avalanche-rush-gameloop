@@ -136,6 +136,8 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
   const [particles, setParticles] = useState<Particle[]>([]);
   const [backgroundOffset, setBackgroundOffset] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [showAchievement, setShowAchievement] = useState<string | null>(null);
+  const [achievementTimer, setAchievementTimer] = useState(0);
 
   // Enhanced game state with power-ups and special abilities
   const gameStateRef = useRef({
@@ -511,11 +513,50 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
     const time = Date.now() * 0.01;
     const bounce = Math.sin(time + collectible.x * 0.1) * 3;
     const glow = Math.sin(time * 2) * 0.3 + 0.7;
-    
+    const rotate = time * 0.5;
+
     ctx.save();
     ctx.translate(collectible.x + collectible.width/2, collectible.y + collectible.height/2 + bounce);
 
-    if (collectible.type === 'coin') {
+    // AVAX token (new collectible type)
+    if (collectible.type === 'token') {
+      ctx.rotate(rotate);
+
+      // AVAX red circle
+      const avaxGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, collectible.width/2);
+      avaxGradient.addColorStop(0, '#ff4444');
+      avaxGradient.addColorStop(0.6, '#e84142');
+      avaxGradient.addColorStop(1, '#cc3333');
+
+      ctx.fillStyle = avaxGradient;
+      ctx.shadowColor = '#ff4444';
+      ctx.shadowBlur = 20 * glow;
+      ctx.beginPath();
+      ctx.arc(0, 0, collectible.width/2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // White "A" symbol
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 16px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowBlur = 5;
+      ctx.fillText('A', 0, 0);
+
+      // Sparkle effect
+      for (let i = 0; i < 4; i++) {
+        const angle = (i / 4) * Math.PI * 2 + rotate;
+        const sparkX = Math.cos(angle) * (collectible.width/2 + 5);
+        const sparkY = Math.sin(angle) * (collectible.width/2 + 5);
+        ctx.fillStyle = `rgba(255, 255, 255, ${glow})`;
+        ctx.beginPath();
+        ctx.arc(sparkX, sparkY, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.shadowBlur = 0;
+
+    } else if (collectible.type === 'coin') {
       // Gold coin with shine effect
       const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, collectible.width/2);
       gradient.addColorStop(0, '#ffd700');
@@ -1012,6 +1053,76 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
       ctx.textAlign = 'left';
     }
   }, [gameState.currentLevel]);
+
+  // Draw achievement celebration
+  const drawAchievementCelebration = useCallback((ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, message: string) => {
+    const time = Date.now() * 0.003;
+    const pulse = Math.sin(time * 3) * 0.2 + 0.8;
+    const yOffset = Math.sin(time * 2) * 10;
+
+    // Semi-transparent overlay
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Achievement banner
+    const bannerWidth = 600;
+    const bannerHeight = 150;
+    const bannerX = (canvas.width - bannerWidth) / 2;
+    const bannerY = (canvas.height - bannerHeight) / 2 + yOffset;
+
+    // Banner background with gradient
+    const bannerGradient = ctx.createLinearGradient(bannerX, bannerY, bannerX, bannerY + bannerHeight);
+    bannerGradient.addColorStop(0, 'rgba(255, 68, 68, 0.95)'); // AVAX red
+    bannerGradient.addColorStop(0.5, 'rgba(232, 65, 66, 0.95)');
+    bannerGradient.addColorStop(1, 'rgba(204, 51, 51, 0.95)');
+
+    ctx.fillStyle = bannerGradient;
+    ctx.shadowColor = '#ff4444';
+    ctx.shadowBlur = 30 * pulse;
+    ctx.fillRect(bannerX, bannerY, bannerWidth, bannerHeight);
+
+    // Border glow
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 4;
+    ctx.shadowBlur = 40 * pulse;
+    ctx.strokeRect(bannerX, bannerY, bannerWidth, bannerHeight);
+
+    ctx.shadowBlur = 0;
+
+    // Achievement icon
+    ctx.font = '80px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = '#ffdd00';
+    ctx.shadowBlur = 20;
+    ctx.fillText('🏆', canvas.width / 2, bannerY + 50);
+
+    // Achievement text
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 32px Arial';
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+    ctx.shadowBlur = 10;
+    ctx.fillText(message, canvas.width / 2, bannerY + 110);
+
+    // Confetti particles
+    for (let i = 0; i < 20; i++) {
+      const x = bannerX + Math.random() * bannerWidth;
+      const y = bannerY + Math.random() * bannerHeight;
+      const size = Math.random() * 8 + 4;
+      const colors = ['#ffdd00', '#ff4444', '#4CAF50', '#2196F3', '#E91E63'];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      ctx.fillStyle = color;
+      ctx.shadowBlur = 10;
+      ctx.beginPath();
+      ctx.arc(x + Math.sin(time * 2 + i) * 20, y + Math.cos(time * 3 + i) * 20, size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.shadowBlur = 0;
+    ctx.textAlign = 'left';
+  }, []);
 
   const updateParticles = () => {
     setParticles(prev => prev.map(particle => ({
@@ -1546,22 +1657,23 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
       gameStateRef.current.lastObstacleTime = now;
     }
 
-    // Generate collectibles with variety
+    // Generate collectibles with variety including AVAX tokens
     if (now - gameStateRef.current.lastCollectibleTime > 2500) {
       const rand = Math.random();
       let type = 'coin';
-      if (rand > 0.8) type = 'energy';
-      else if (rand > 0.95) type = 'gem'; // Rare gem
-      
+      if (rand > 0.9) type = 'token'; // AVAX token - rare!
+      else if (rand > 0.8) type = 'energy';
+      else if (rand > 0.95) type = 'gem'; // Very rare gem
+
       gameStateRef.current.collectibles.push({
         x: canvas.width,
         y: Math.random() * (canvas.height - 150) + 50,
-        width: type === 'gem' ? 25 : 20,
-        height: type === 'gem' ? 25 : 20,
+        width: type === 'gem' ? 25 : type === 'token' ? 22 : 20,
+        height: type === 'gem' ? 25 : type === 'token' ? 22 : 20,
         speed: gameSpeed + 1,
         type,
         animation: 0,
-        value: type === 'gem' ? 50 : type === 'energy' ? 0 : 10
+        value: type === 'token' ? 100 : type === 'gem' ? 50 : type === 'energy' ? 0 : 10
       });
       gameStateRef.current.lastCollectibleTime = now;
     }
@@ -1813,6 +1925,37 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
             );
           }
 
+        } else if (collectible.type === 'token') {
+          // AVAX token - super rare and valuable!
+          let points = 100 + gameStateRef.current.combo * 10;
+
+          if (gameStateRef.current.activePowerups.multiplier.active) {
+            points *= gameStateRef.current.activePowerups.multiplier.value;
+          }
+
+          gameStateRef.current.score += Math.floor(points);
+          gameStateRef.current.combo += 5; // Huge combo boost!
+          gameStateRef.current.comboTimer = 600; // Even longer combo time
+          gameStateRef.current.streakCount += 3;
+          onScoreUpdate(gameStateRef.current.score);
+
+          // Epic AVAX collection effect - red particles!
+          for (let i = 0; i < 30; i++) {
+            const angle = (i / 30) * Math.PI * 2;
+            const speed = 5 + Math.random() * 5;
+            setTimeout(() => {
+              createParticles(
+                collectible.x + collectible.width/2 + Math.cos(angle) * 20,
+                collectible.y + collectible.height/2 + Math.sin(angle) * 20,
+                'explosion',
+                2
+              );
+            }, i * 10);
+          }
+
+          // Center burst
+          createParticles(collectible.x + collectible.width/2, collectible.y + collectible.height/2, 'power', 25);
+
         } else if (collectible.type === 'gem') {
           // Rare gem gives massive points
           let points = 50 + gameStateRef.current.combo * 5;
@@ -1901,6 +2044,35 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
     // Draw level progression
     drawLevelProgression(ctx, canvas);
 
+    // Draw achievement celebration if active
+    if (showAchievement) {
+      drawAchievementCelebration(ctx, canvas, showAchievement);
+    }
+
+    // Check for achievement milestones
+    const currentScore = gameStateRef.current.score;
+    if (currentScore === 1000 && !showAchievement) {
+      setShowAchievement('AVAX COLLECTOR! 🎯');
+      setAchievementTimer(180); // Show for 3 seconds
+    } else if (currentScore === 5000 && !showAchievement) {
+      setShowAchievement('AVALANCHE MASTER! ⛰️');
+      setAchievementTimer(180);
+    } else if (currentScore === 10000 && !showAchievement) {
+      setShowAchievement('LEGENDARY CHAMPION! 👑');
+      setAchievementTimer(180);
+    } else if (gameStateRef.current.combo >= 10 && !showAchievement) {
+      setShowAchievement('COMBO KING! 🔥');
+      setAchievementTimer(120);
+    }
+
+    // Update achievement timer
+    if (achievementTimer > 0) {
+      setAchievementTimer(prev => prev - 1);
+      if (achievementTimer === 1) {
+        setShowAchievement(null);
+      }
+    }
+
     // Increase game speed over time
     if (gameStateRef.current.score > 0 && gameStateRef.current.score % 100 === 0) {
       setGameSpeed(prev => Math.min(prev + 0.05, 6));
@@ -1919,7 +2091,7 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
 
     // Continue game loop
     gameLoopRef.current = requestAnimationFrame(gameLoop);
-  }, [gameState.isPlaying, gameState.currentLevel, isPaused, playerPosition, keys, gameSpeed, createParticles, onScoreUpdate, onLevelComplete, selectedCharacter, drawBackground, drawEnhancedUI, drawLevelProgression, drawParticles, drawPlayer, endGame]);
+  }, [gameState.isPlaying, gameState.currentLevel, isPaused, playerPosition, keys, gameSpeed, createParticles, onScoreUpdate, onLevelComplete, selectedCharacter, drawBackground, drawEnhancedUI, drawLevelProgression, drawAchievementCelebration, drawParticles, drawPlayer, endGame, showAchievement, achievementTimer]);
 
   // Initialize game
   const startGame = useCallback(() => {
@@ -2019,11 +2191,15 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
           />
           
           {/* Enhanced Game Instructions Overlay */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="absolute top-4 right-4 bg-black/80 text-white p-4 rounded-lg backdrop-blur-sm border border-green-400/30 max-w-xs"
+            className="absolute top-4 right-4 bg-black/80 text-white p-4 rounded-lg backdrop-blur-sm border border-red-400/30 max-w-xs"
           >
+            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-red-400/30">
+              <span className="text-2xl">⛰️</span>
+              <span className="text-red-400 font-bold">AVALANCHE RUSH</span>
+            </div>
             <div className="text-sm space-y-1">
               <div className="flex items-center gap-2">
                 <span className="text-green-400">🎮</span>
@@ -2031,7 +2207,11 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-yellow-400">🪙</span>
-                <span>Collect coins for points</span>
+                <span>Coins: +10 points</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-red-400 font-bold">A</span>
+                <span>AVAX Tokens: +100 points!</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-blue-400">💎</span>
@@ -2039,7 +2219,7 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-purple-400">💎</span>
-                <span>Rare gems give massive points!</span>
+                <span>Rare gems: +50 points</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-red-400">⚠️</span>
@@ -2047,13 +2227,14 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-orange-400">⚡</span>
-                <span>Collect power-ups for abilities</span>
+                <span>Power-ups boost performance</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-purple-400">🔥</span>
-                <span>Build combos for bonus points!</span>
+                <span>Build combos for bonuses!</span>
               </div>
               <div className="border-t border-gray-600 pt-2 mt-2">
+                <div className="text-xs text-gray-400 mb-1">Special Abilities:</div>
                 <div className="flex items-center gap-2">
                   <span className="text-green-400">Q</span>
                   <span>Dash forward</span>
