@@ -4,7 +4,11 @@ import RewardPsychologyEngine from './RewardPsychologyEngine';
 import QuestSystem from './QuestSystem';
 import LeaderboardSystem from './LeaderboardSystem';
 import NFTMarketplace from './NFTMarketplace';
+import CharacterSelection from '../character/CharacterSelection';
+import StoryProgressionUI from '../character/StoryProgressionUI';
 import { useSmartContracts } from '../../hooks/useSmartContracts';
+import { useCharacterStats } from '../../hooks/useCharacterStats';
+import { Zap, Shield, Star } from 'lucide-react';
 
 interface GameState {
   isPlaying: boolean;
@@ -45,6 +49,14 @@ const AvalancheRushGame = () => {
     getPlayerNFTs
   } = useSmartContracts();
 
+  const {
+    selectedCharacter,
+    classModifiers,
+    recordGameScore,
+    calculateModifiedScore,
+    rollCriticalHit
+  } = useCharacterStats();
+
   const [gameState, setGameState] = useState<GameState>({
     isPlaying: false,
     isPaused: false,
@@ -67,8 +79,11 @@ const AvalancheRushGame = () => {
   const [showQuestSystem, setShowQuestSystem] = useState(false);
   const [showLeaderboardSystem, setShowLeaderboardSystem] = useState(false);
   const [showNFTMarketplace, setShowNFTMarketplace] = useState(false);
+  const [showCharacterSelection, setShowCharacterSelection] = useState(false);
+  const [showStoryProgression, setShowStoryProgression] = useState(false);
   const [notifications, setNotifications] = useState<string[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<number | null>(null);
+  const [comboMultiplier, setComboMultiplier] = useState(1);
 
   // Load player profile when wallet connects
   useEffect(() => {
@@ -120,26 +135,48 @@ const AvalancheRushGame = () => {
 
     setIsLoading(true);
     try {
-      await completeGameSession(currentSessionId, finalScore, [], [], []);
-      
+      // Apply character modifiers to final score
+      const modifiedScore = calculateModifiedScore(finalScore, comboMultiplier);
+
+      await completeGameSession(currentSessionId, modifiedScore, [], [], []);
+
+      // Record score with character NFT (awards XP and checks for story progression)
+      if (selectedCharacter) {
+        const baseXP = Math.floor(modifiedScore / 10); // 10 points = 1 XP
+        const result = await recordGameScore(modifiedScore, baseXP);
+
+        // Show progression notifications
+        if (result.leveledUp) {
+          setNotifications(prev => [...prev, `🎉 Level Up! Now level ${result.newLevel}`]);
+        }
+        if (result.storyUnlocked) {
+          setNotifications(prev => [...prev, `📖 Story unlocked: Arc ${result.arc}, Chapter ${result.chapter}`]);
+          setShowStoryProgression(true);
+        }
+        if (result.loreDiscovered) {
+          setNotifications(prev => [...prev, `✨ Lore fragment discovered!`]);
+        }
+      }
+
       setGameState(prev => ({
         ...prev,
         isPlaying: false,
         isPaused: false,
         sessionId: null,
-        highScore: Math.max(prev.highScore, finalScore),
+        highScore: Math.max(prev.highScore, modifiedScore),
         totalGamesPlayed: prev.totalGamesPlayed + 1
       }));
-      
+
       setCurrentSessionId(null);
-      setNotifications(prev => [...prev, `🏆 Game completed! Score: ${finalScore}`]);
+      setComboMultiplier(1);
+      setNotifications(prev => [...prev, `🏆 Game completed! Score: ${modifiedScore}`]);
     } catch (error) {
       console.error('Error ending game:', error);
       setNotifications(prev => [...prev, 'Failed to complete game session']);
     } finally {
       setIsLoading(false);
     }
-  }, [currentSessionId, completeGameSession]);
+  }, [currentSessionId, completeGameSession, selectedCharacter, recordGameScore, calculateModifiedScore, comboMultiplier]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col relative overflow-hidden">
@@ -166,13 +203,81 @@ const AvalancheRushGame = () => {
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="max-w-4xl w-full">
+          {/* Character Card */}
+          {selectedCharacter && (
+            <div className="bg-gradient-to-br from-purple-900/50 to-blue-900/50 backdrop-blur-sm rounded-2xl p-6 mb-6 border-2 border-purple-500/50 shadow-2xl">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
+                    <Zap className="w-8 h-8 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">
+                      {['Rush Runner', 'Guardian Towers', 'Pixel Sharpshooter', 'Tinker Tech'][selectedCharacter.characterClass]}
+                    </h3>
+                    <p className="text-sm text-purple-300">Level {selectedCharacter.level} • {selectedCharacter.experience} XP</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowCharacterSelection(true)}
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-white text-sm"
+                >
+                  Change Character
+                </button>
+              </div>
+
+              {/* Character Stats */}
+              {classModifiers && (
+                <div className="grid grid-cols-4 gap-3">
+                  <div className="bg-white/5 rounded-lg p-3 text-center">
+                    <Star className="w-5 h-5 text-yellow-400 mx-auto mb-1" />
+                    <div className="text-xs text-gray-400">Score</div>
+                    <div className="text-sm font-bold text-white">+{((classModifiers.scoreMultiplier - 1) * 100).toFixed(0)}%</div>
+                  </div>
+                  <div className="bg-white/5 rounded-lg p-3 text-center">
+                    <Zap className="w-5 h-5 text-blue-400 mx-auto mb-1" />
+                    <div className="text-xs text-gray-400">Combo</div>
+                    <div className="text-sm font-bold text-white">+{((classModifiers.comboBonus - 1) * 100).toFixed(0)}%</div>
+                  </div>
+                  <div className="bg-white/5 rounded-lg p-3 text-center">
+                    <Shield className="w-5 h-5 text-green-400 mx-auto mb-1" />
+                    <div className="text-xs text-gray-400">Defense</div>
+                    <div className="text-sm font-bold text-white">+{((classModifiers.defenseBonus - 1) * 100).toFixed(0)}%</div>
+                  </div>
+                  <div className="bg-white/5 rounded-lg p-3 text-center">
+                    <Star className="w-5 h-5 text-red-400 mx-auto mb-1" />
+                    <div className="text-xs text-gray-400">Critical</div>
+                    <div className="text-sm font-bold text-white">{classModifiers.criticalChance.toFixed(0)}%</div>
+                  </div>
+                </div>
+              )}
+
+              {/* Story Progress */}
+              {selectedCharacter.currentArc > 0 && (
+                <div className="mt-4 p-3 bg-white/5 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-purple-300">
+                      📖 Story Arc {selectedCharacter.currentArc} • Chapter {selectedCharacter.currentChapter}
+                    </div>
+                    <button
+                      onClick={() => setShowStoryProgression(true)}
+                      className="text-xs text-purple-400 hover:text-purple-300"
+                    >
+                      View Story
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Player Profile Card */}
           {playerProfile && (
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-8 border border-white/20 shadow-2xl">
               <div className="text-center mb-6">
                 <h2 className="text-2xl font-bold text-white mb-2">Player Dashboard</h2>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center p-4 bg-white/5 rounded-xl border border-white/10">
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -180,14 +285,14 @@ const AvalancheRushGame = () => {
                   </div>
                   <div className="text-white font-semibold">Level</div>
                 </div>
-                
+
                 <div className="text-center p-4 bg-white/5 rounded-xl border border-white/10">
                   <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-3">
                     <span className="text-lg font-bold text-white">💎</span>
                   </div>
                   <div className="text-white font-semibold">RUSH Tokens</div>
                 </div>
-                
+
                 <div className="text-center p-4 bg-white/5 rounded-xl border border-white/10">
                   <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-3">
                     <span className="text-lg font-bold text-white">🎨</span>
@@ -199,14 +304,23 @@ const AvalancheRushGame = () => {
           )}
 
           {/* Action Buttons */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
             <button
               onClick={() => setShowGameModeSelector(true)}
-              disabled={!isConnected || isLoading}
+              disabled={!isConnected || isLoading || !selectedCharacter}
               className="bg-gradient-to-br from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-bold py-8 px-6 rounded-2xl shadow-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <div className="text-4xl mb-3">🎮</div>
               <div className="text-lg font-bold">Play Game</div>
+              {!selectedCharacter && <div className="text-xs mt-1">Select character first</div>}
+            </button>
+
+            <button
+              onClick={() => setShowCharacterSelection(true)}
+              className="bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white font-bold py-8 px-6 rounded-2xl shadow-2xl transition-all duration-300"
+            >
+              <div className="text-4xl mb-3">🦸</div>
+              <div className="text-lg font-bold">Characters</div>
             </button>
 
             <button
@@ -312,10 +426,46 @@ const AvalancheRushGame = () => {
       )}
 
       {showNFTMarketplace && (
-        <NFTMarketplace 
-          isOpen={showNFTMarketplace} 
-          onClose={() => setShowNFTMarketplace(false)} 
+        <NFTMarketplace
+          isOpen={showNFTMarketplace}
+          onClose={() => setShowNFTMarketplace(false)}
         />
+      )}
+
+      {/* Character Selection Modal */}
+      {showCharacterSelection && (
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 overflow-y-auto">
+          <div className="min-h-screen p-4">
+            <div className="flex justify-end mb-4">
+              <button
+                onClick={() => setShowCharacterSelection(false)}
+                className="px-6 py-3 bg-red-600 hover:bg-red-500 rounded-lg text-white font-bold"
+              >
+                Close
+              </button>
+            </div>
+            <CharacterSelection
+              onCharacterSelected={() => setShowCharacterSelection(false)}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Story Progression Modal */}
+      {showStoryProgression && selectedCharacter && (
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 overflow-y-auto">
+          <div className="min-h-screen p-4">
+            <div className="flex justify-end mb-4">
+              <button
+                onClick={() => setShowStoryProgression(false)}
+                className="px-6 py-3 bg-red-600 hover:bg-red-500 rounded-lg text-white font-bold"
+              >
+                Close
+              </button>
+            </div>
+            <StoryProgressionUI characterId={selectedCharacter.tokenId} />
+          </div>
+        </div>
       )}
     </div>
   );

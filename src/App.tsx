@@ -23,6 +23,7 @@ const InteractiveLearningPage = lazy(() => import("./pages/InteractiveLearningPa
 const EnhancedRewardsPage = lazy(() => import("./pages/EnhancedRewardsPage"));
 const MockDataDemo = lazy(() => import("./pages/MockDataDemo"));
 const NFTDashboard = lazy(() => import("./components/nft/NFTDashboard"));
+const CharacterSelection = lazy(() => import("./components/character/CharacterSelection"));
 
       // Enhanced features - lazy loaded
       const CareerPathSystem = lazy(() => import("./components/career/CareerPathSystem"));
@@ -67,6 +68,8 @@ const App = () => (
                 <Route path="/achievements" element={<MobileResponsiveWrapper><AchievementsPage /></MobileResponsiveWrapper>} />
                 <Route path="/nfts" element={<MobileResponsiveWrapper><NFTDashboard /></MobileResponsiveWrapper>} />
                 <Route path="/nft" element={<MobileResponsiveWrapper><NFTDashboard /></MobileResponsiveWrapper>} />
+                <Route path="/characters" element={<MobileResponsiveWrapper><CharacterSelection /></MobileResponsiveWrapper>} />
+                <Route path="/character" element={<MobileResponsiveWrapper><CharacterSelection /></MobileResponsiveWrapper>} />
                 <Route path="/learn" element={<MobileResponsiveWrapper><LearnWeb3Page /></MobileResponsiveWrapper>} />
                 <Route path="/learn-web3" element={<MobileResponsiveWrapper><LearnWeb3Page /></MobileResponsiveWrapper>} />
                 <Route path="/reactive-quest" element={<MobileResponsiveWrapper><ReactiveQuestPage /></MobileResponsiveWrapper>} />
