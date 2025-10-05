@@ -84,8 +84,9 @@ The game features **5 unique visual themes** that change as you level up:
 - **Rare Gem** 💎: 50 points
 - **Energy Crystal** 💠: Restores 25% energy (no points)
 
-### Multipliers
-- **Combo Multiplier**: +0.1x per consecutive collection
+### Multipliers & Bonuses
+- **Combo Multiplier**: +0.1x per 5 consecutive collections, up to 5x
+- **Streak Bonus**: +50 points every 10 successful actions in a row
 - **Character Bonuses**: Up to 20% based on NFT character
 - **Power-up Multiplier**: 2x points when active
 - **Special Abilities**: Character-specific bonuses

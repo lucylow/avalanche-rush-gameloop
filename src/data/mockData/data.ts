@@ -73,6 +73,61 @@ export const mockData: MockData = {
       },
       ownedNFTs: [225, 309, 501, 502],
       guild: "DeFi Masters"
+    },
+    // Additional player profiles
+    {
+      address: "0x4444444444444444444444444444444444444444",
+      username: "PixelPilot",
+      level: 10,
+      experience: 18000,
+      totalScore: 48010,
+      currentStreak: 9,
+      totalGamesPlayed: 28,
+      preferredCharacter: "Ava-Defender",
+      skills: {
+        deFiMastery: 40,
+        nftExpertise: 22,
+        crossChain: 18,
+        validator: 12
+      },
+      ownedNFTs: [601, 602],
+      guild: "Night Owls"
+    },
+    {
+      address: "0x5555555555555555555555555555555555555555",
+      username: "RunRanger",
+      level: 22,
+      experience: 61020,
+      totalScore: 61020,
+      currentStreak: 20,
+      totalGamesPlayed: 45,
+      preferredCharacter: "Nobu-Speedster",
+      skills: {
+        deFiMastery: 70,
+        nftExpertise: 33,
+        crossChain: 29,
+        validator: 21
+      },
+      ownedNFTs: [603, 604],
+      guild: "Speed Demons"
+    },
+    {
+      address: "0x6666666666666666666666666666666666666666",
+      username: "ShooterAce",
+      level: 19,
+      experience: 57050,
+      totalScore: 57050,
+      currentStreak: 11,
+      totalGamesPlayed: 38,
+      preferredCharacter: "Sam-Shooter",
+      skills: {
+        deFiMastery: 55,
+        nftExpertise: 41,
+        crossChain: 24,
+        validator: 17
+      },
+      ownedNFTs: [605, 606],
+      guild: "Sharpshooters"
     }
   ],
 
@@ -141,6 +196,55 @@ export const mockData: MockData = {
       comboMultiplier: 4,
       completedQuests: [4, 8, 10],
       newNFTs: [230, 503],
+      rewardsClaimed: true
+    },
+    // Extended game sessions
+    {
+      sessionId: "sess1004",
+      player: "0x4444444444444444444444444444444444444444",
+      startTime: 1703470000,
+      endTime: 1703470390,
+      mode: "challenge",
+      finalScore: 39520,
+      levelReached: 8,
+      distance: 700,
+      coinsCollected: 210,
+      powerUpsUsed: 9,
+      comboMultiplier: 2,
+      completedQuests: [8, 13],
+      newNFTs: [601],
+      rewardsClaimed: true
+    },
+    {
+      sessionId: "sess1005",
+      player: "0x5555555555555555555555555555555555555555",
+      startTime: 1703471000,
+      endTime: 1703471280,
+      mode: "classic",
+      finalScore: 60215,
+      levelReached: 12,
+      distance: 1200,
+      coinsCollected: 500,
+      powerUpsUsed: 15,
+      comboMultiplier: 5,
+      completedQuests: [9, 14],
+      newNFTs: [603],
+      rewardsClaimed: true
+    },
+    {
+      sessionId: "sess1006",
+      player: "0x6666666666666666666666666666666666666666",
+      startTime: 1703472000,
+      endTime: 1703472310,
+      mode: "classic",
+      finalScore: 58940,
+      levelReached: 11,
+      distance: 1100,
+      coinsCollected: 480,
+      powerUpsUsed: 12,
+      comboMultiplier: 4,
+      completedQuests: [10, 15],
+      newNFTs: [605],
       rewardsClaimed: true
     }
   ],
@@ -386,6 +490,34 @@ export const mockData: MockData = {
         { position: 1, reward: 30000, nftReward: "earlycup_champ_nft" },
         { position: 2, reward: 2500, nftReward: "earlycup_second_nft" }
       ]
+    },
+    // Add tournament match results
+    {
+      tournamentId: "tourney001",
+      name: "October High Score Championship",
+      status: "completed",
+      entryFee: 1000,
+      prizePool: 25000,
+      currentParticipants: 75,
+      maxParticipants: 100,
+      startTime: 1760000000,
+      participants: ["ArcadeAce", "TowerTactician", "ShooterSam", "PixelPilot", "RunRanger", "ShooterAce"],
+      rounds: [
+        {
+          roundNumber: 1,
+          matches: [
+            { matchId: "match001", players: ["ArcadeAce", "RunRanger"], winner: "RunRanger" },
+            { matchId: "match002", players: ["ShooterSam", "ShooterAce"], winner: "ShooterAce" },
+            { matchId: "match003", players: ["TowerTactician", "PixelPilot"], winner: "TowerTactician" }
+          ]
+        }
+      ],
+      prizes: [
+        { position: 1, reward: 10000, nftReward: "nft001" },
+        { position: 2, reward: 7000, nftReward: "nft002" },
+        { position: 3, reward: 5000, nftReward: "nft003" },
+        { position: 4, reward: 3000, nftReward: null }
+      ]
     }
   ],
 
@@ -508,5 +640,77 @@ export const mockData: MockData = {
     NFTMinted: 301,
     rewardsReceived: 3200,
     sessionHash: "demo_sess_web3wanderer_eth"
+  },
+
+  // Additional achievements and rewards
+  achievements: [
+    {
+      playerId: "player5",
+      achievements: [
+        { title: "Marathon Runner", date: "2025-10-03T19:40:00Z", nftReward: "nftMarathon2025" },
+        { title: "Tournament Qualifier", date: "2025-10-01T20:10:00Z", nftReward: "nftQualifierBadge" }
+      ],
+      RUSHTokensEarned: 11200
+    },
+    {
+      playerId: "player6",
+      achievements: [
+        { title: "Sharpshooter Supreme", date: "2025-10-03T20:40:00Z", nftReward: "nftSharpshooter2025" },
+        { title: "Tournament Finalist", date: "2025-10-02T21:30:00Z", nftReward: "nftFinalistBadge" }
+      ],
+      RUSHTokensEarned: 13500
+    }
+  ],
+
+  // Community events and logs
+  events: [
+    {
+      eventId: "event001",
+      title: "Weekend Double Points",
+      description: "Earn double Rush tokens on all Infinite Runner games this weekend.",
+      startTime: "2025-10-04T00:00:00Z",
+      endTime: "2025-10-06T23:59:59Z",
+      affectedGameModes: ["Infinite Runner"],
+      active: true
+    },
+    {
+      eventId: "event002",
+      title: "Tower Defense Team Battles",
+      description: "Join guild teams for weekly battles in Tower Defense mode.",
+      startTime: "2025-10-05T00:00:00Z",
+      endTime: "2025-10-12T23:59:59Z",
+      affectedGameModes: ["Tower Defense"],
+      active: true
+    }
+  ],
+  globalChat: [
+    { playerId: "player1", message: "Let’s set a new record in Infinite Runner! Anyone?" },
+    { playerId: "player6", message: "Sharpshooters unite! Time to chase the top spot." }
+  ],
+  guildChat: [
+    { guildId: "guild001", playerId: "player4", message: "Planning defenses for the weekend battle." },
+    { guildId: "guild002", playerId: "player3", message: "Great rounds everyone, keep pushing!" }
+  ],
+  // Recent event logs for streaming/replay
+  eventLogs: [
+    { eventId: "stream001", eventType: "match_start", matchId: "match001", players: ["player1", "player5"], timestamp: "2025-10-03T19:55:00Z" },
+    { eventId: "stream002", eventType: "player_highscore", playerId: "player5", score: 60000, timestamp: "2025-10-03T20:05:00Z" },
+    { eventId: "stream003", eventType: "match_end", matchId: "match001", winner: "player5", timestamp: "2025-10-03T20:10:00Z" }
+  ],
+  // Economy & token usage summary
+  tokenEconomy: {
+    tokenStats: {
+      totalSupply: 1000000000,
+      circulatingSupply: 450000000,
+      burned: 15000000,
+      dailyDistributed: 1200000,
+      marketPrice: 0.075,
+      stakingPool: 80000000
+    },
+    tokenHolders: [
+      { playerId: "player5", balance: 12500 },
+      { playerId: "player6", balance: 15800 },
+      { playerId: "player1", balance: 8750 }
+    ]
   }
 };
