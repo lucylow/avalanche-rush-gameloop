@@ -29,7 +29,7 @@ import {
   Lock
 } from 'lucide-react';
 
-interface StudyGroup {
+export interface StudyGroup {
   id: string;
   name: string;
   description: string;
@@ -49,7 +49,7 @@ interface StudyGroup {
   modules: string[];
 }
 
-interface LearningChallenge {
+export interface LearningChallenge {
   id: string;
   title: string;
   description: string;
@@ -67,7 +67,7 @@ interface LearningChallenge {
   progress: number;
 }
 
-interface DiscussionPost {
+export interface DiscussionPost {
   id: string;
   title: string;
   content: string;
@@ -85,7 +85,7 @@ interface DiscussionPost {
   isBookmarked: boolean;
 }
 
-interface LeaderboardEntry {
+export interface LeaderboardEntry {
   rank: number;
   user: {
     name: string;

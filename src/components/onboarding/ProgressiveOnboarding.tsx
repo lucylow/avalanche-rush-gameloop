@@ -364,53 +364,44 @@ const PreferencesStep: React.FC<{ userData: any; setUserData: (data: any) => voi
       <h3 className="text-2xl font-bold text-white mb-2">Customize Your Experience</h3>
       <p className="text-white/70">Choose your preferences and settings</p>
     </div>
-
     <div className="space-y-4">
-      <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-        <div>
-          <h4 className="text-white font-semibold">Email Notifications</h4>
-          <p className="text-white/60 text-sm">Receive updates about your progress and rewards</p>
-        </div>
+      <div>
+        <Label htmlFor="notifications" className="text-white">Enable Notifications</Label>
         <input
+          id="notifications"
           type="checkbox"
           checked={userData.preferences.notifications}
-          onChange={(e) => setUserData({
+          onChange={e => setUserData({
             ...userData,
             preferences: { ...userData.preferences, notifications: e.target.checked }
           })}
-          className="w-5 h-5 text-blue-600 bg-white/10 border-white/20 rounded"
+          className="ml-2"
         />
       </div>
-
-      <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-        <div>
-          <h4 className="text-white font-semibold">Analytics</h4>
-          <p className="text-white/60 text-sm">Help improve the game with anonymous usage data</p>
-        </div>
+      <div>
+        <Label htmlFor="analytics" className="text-white">Enable Analytics</Label>
         <input
+          id="analytics"
           type="checkbox"
           checked={userData.preferences.analytics}
-          onChange={(e) => setUserData({
+          onChange={e => setUserData({
             ...userData,
             preferences: { ...userData.preferences, analytics: e.target.checked }
           })}
-          className="w-5 h-5 text-blue-600 bg-white/10 border-white/20 rounded"
+          className="ml-2"
         />
       </div>
-
-      <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-        <div>
-          <h4 className="text-white font-semibold">Social Features</h4>
-          <p className="text-white/60 text-sm">Connect with friends and share achievements</p>
-        </div>
+      <div>
+        <Label htmlFor="socialFeatures" className="text-white">Enable Social Features</Label>
         <input
+          id="socialFeatures"
           type="checkbox"
           checked={userData.preferences.socialFeatures}
-          onChange={(e) => setUserData({
+          onChange={e => setUserData({
             ...userData,
             preferences: { ...userData.preferences, socialFeatures: e.target.checked }
           })}
-          className="w-5 h-5 text-blue-600 bg-white/10 border-white/20 rounded"
+          className="ml-2"
         />
       </div>
     </div>

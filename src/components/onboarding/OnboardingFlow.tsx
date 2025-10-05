@@ -587,3 +587,5 @@ const CompletionStep: React.FC = () => {
 };
 
 export default OnboardingFlow;
+
+// If any step components are missing, ensure they are defined above or imported correctly.

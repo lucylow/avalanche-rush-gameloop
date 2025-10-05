@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 
 // Avalanche C-Chain Contract ABI
-const AVALANCHE_CCHAIN_ABI = [
+export const AVALANCHE_CCHAIN_ABI = [
   "function stakeAVAX() external payable",
   "function unstakeAVAX(uint256 amount) external",
   "function calculateStakingRewards(address player) external view returns (uint256)",

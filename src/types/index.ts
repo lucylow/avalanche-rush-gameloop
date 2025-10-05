@@ -159,15 +159,8 @@ export interface PowerUp {
 
 export type PowerUpType = 'shield' | 'magnet' | 'jump_boost' | 'slow_time' | 'double_score' | 'invincibility';
 
-export interface PowerUpEffect {
-  multiplier?: number;
-  duration?: number;
-  protection?: boolean;
-  magnetRange?: number;
-}
-
-export type GameMode = 'classic' | 'tutorial' | 'challenge' | 'quest' | 'speedrun' | 'survival' | 'tournament';
-export type Difficulty = 'easy' | 'normal' | 'hard' | 'expert' | 'nightmare';
+export type GameMode = 'classic' | 'tournament' | 'challenge' | 'practice';
+export type Difficulty = 'easy' | 'normal' | 'hard' | 'legendary';
 
 // ==================== QUEST SYSTEM INTERFACES ====================
 
@@ -508,3 +501,18 @@ export const CONTRACT_ADDRESSES = {
   EDUCATIONAL_NFT: '0x7b2d5C5E3A5E2a9E1aB8d8C6E6E9F4A5B8D35e3',
   REACTIVE_QUEST_ENGINE: '0x6a1d5C5E3A5E2a9E1aB8d8C6E6E9F4A5B8D35d2'
 } as const;
+
+// Add missing types for Character, GameMode, Difficulty
+export interface Character {
+  id: string;
+  name: string;
+  rarity: string;
+  type: string;
+  questBonus: number;
+  tournamentBonus: number;
+  attributes: Record<string, number>;
+  specialAbilities: string[];
+}
+
+export type GameMode = 'classic' | 'tournament' | 'challenge' | 'practice';
+export type Difficulty = 'easy' | 'normal' | 'hard' | 'legendary';

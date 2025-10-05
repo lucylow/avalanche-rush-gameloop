@@ -5,6 +5,7 @@ import "./IReactive.sol";
 import "./AbstractReactive.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
@@ -13,7 +14,7 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
  * @dev Automated DeFi education rewards system using Reactive Network
  * @notice Maximizes educational value and Reactive Network transaction volume
  */
-contract ReactiveEducationRewards is AbstractReactive, ReentrancyGuard, Ownable {
+contract ReactiveEducationRewards is AbstractReactive, ReentrancyGuard, Ownable, AccessControl {
     
     struct EducationModule {
         uint256 id;

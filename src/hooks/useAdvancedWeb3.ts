@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import SmartContractService from '../services/SmartContractService';
 
 // Enhanced contract ABIs with full functionality
-const AVALANCHE_RUSH_CORE_ABI = [
+export const AVALANCHE_RUSH_CORE_ABI = [
   "function startGame(uint8 mode, uint256 difficulty, uint256 levelId) external returns (uint256)",
   "function completeGame(uint256 sessionId, uint256 finalScore, string[] calldata achievementsUnlocked, uint256[] calldata skillPointsEarned, string[] calldata skillNames) external",
   "function getPlayerProfile(address player) external view returns (uint256, uint256, uint256, uint256, uint256, uint256, uint256, bool)",

@@ -22,33 +22,18 @@ import {
 import { useWeb3 } from '@/hooks/useWeb3';
 import { useAuth } from '@/hooks/useAuth';
 
-interface NFT {
+type NFT = {
   id: string;
   name: string;
   description: string;
   image: string;
-  rarity: 'common' | 'rare' | 'epic' | 'legendary';
-  attributes: {
-    trait_type: string;
-    value: string;
-  }[];
+  rarity: string;
+  attributes: { trait_type: string; value: string }[];
   mintedAt: string;
   tokenId: string;
-}
+};
 
-interface Reward {
-  id: string;
-  type: 'nft' | 'token' | 'achievement';
-  name: string;
-  description: string;
-  amount?: number;
-  nft?: NFT;
-  claimed: boolean;
-  claimableAt: string;
-  expiresAt?: string;
-}
-
-interface Achievement {
+type Achievement = {
   id: string;
   name: string;
   description: string;
@@ -57,7 +42,18 @@ interface Achievement {
   unlockedAt?: string;
   progress: number;
   maxProgress: number;
-}
+};
+
+type Reward = {
+  id: string;
+  type: 'nft' | 'token' | 'achievement';
+  name: string;
+  description: string;
+  claimed: boolean;
+  claimableAt: string;
+  nft?: NFT;
+  amount?: number;
+};
 
 const Web3Rewards: React.FC = () => {
   const [rewards, setRewards] = useState<Reward[]>([]);
