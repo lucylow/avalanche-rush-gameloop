@@ -501,7 +501,7 @@ const RaffleSystem: React.FC = () => {
                 <CardContent>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     <div className="text-center p-4 bg-gray-700 rounded-lg">
-                      <div className="text-2xl font-bold text-green-400">{transparencyReport.totalRewardsDistributed}</div>
+                      <div className="text-2xl font-bold text-green-400">{transparencyReport.totalRewardsDistributed} AVAX</div>
                       <div className="text-sm text-gray-300">Total AVAX Distributed</div>
                     </div>
                     <div className="text-center p-4 bg-gray-700 rounded-lg">
@@ -509,32 +509,30 @@ const RaffleSystem: React.FC = () => {
                       <div className="text-sm text-gray-300">Total Players</div>
                     </div>
                     <div className="text-center p-4 bg-gray-700 rounded-lg">
-                      <div className="text-2xl font-bold text-purple-400">{transparencyReport.averageRewardPerPlayer}</div>
-                      <div className="text-sm text-gray-300">Avg Reward/Player</div>
+                      <div className="text-2xl font-bold text-orange-400">{transparencyReport.weeklyPoolAmount} AVAX</div>
+                      <div className="text-sm text-gray-300">Weekly Pool Amount</div>
                     </div>
                     <div className="text-center p-4 bg-gray-700 rounded-lg">
-                      <div className="text-2xl font-bold text-orange-400">{transparencyReport.weeklyPoolAmount}</div>
-                      <div className="text-sm text-gray-300">Weekly Pool</div>
-                    </div>
-                    <div className="text-center p-4 bg-gray-700 rounded-lg">
-                      <div className="text-2xl font-bold text-yellow-400">{transparencyReport.totalNFTsMinted}</div>
+                      <div className="text-2xl font-bold text-purple-400">{transparencyReport.totalNFTsMinted}</div>
                       <div className="text-sm text-gray-300">NFTs Minted</div>
                     </div>
                     <div className="text-center p-4 bg-gray-700 rounded-lg">
-                      <div className="text-2xl font-bold text-red-400">{transparencyReport.totalRaffleTickets}</div>
-                      <div className="text-sm text-gray-300">Total Tickets</div>
+                      <div className="text-2xl font-bold text-gray-300">{transparencyReport.totalRaffleTickets}</div>
+                      <div className="text-sm text-gray-300">Total Raffle Tickets</div>
+                    </div>
+                    <div className="text-center p-4 bg-gray-700 rounded-lg">
+                      <div className="text-2xl font-bold text-yellow-400">{transparencyReport.averageRewardPerPlayer} AVAX</div>
+                      <div className="text-sm text-gray-300">Avg Reward/Player</div>
                     </div>
                   </div>
 
                   <div className="mt-6 p-4 bg-green-900/30 rounded-lg border border-green-500/30">
-                    <h4 className="font-semibold mb-2 flex items-center">
-                      <CheckCircle className="w-4 h-4 mr-2 text-green-400" />
-                      Provably Fair System
-                    </h4>
-                    <p className="text-sm text-green-200">
-                      All raffle winners are selected using Chainlink VRF, ensuring provably random and fair results.
-                      All transactions and rewards are transparent and verifiable on-chain.
-                    </p>
+                    <h4 className="font-semibold mb-2 text-green-400">Distribution Notes</h4>
+                    <ul className="text-sm text-gray-300 space-y-1">
+                      <li>• All rewards are distributed transparently via smart contracts</li>
+                      <li>• Chainlink VRF ensures provable randomness</li>
+                      <li>• Weekly pool and ticket stats are updated in real-time</li>
+                    </ul>
                   </div>
                 </CardContent>
               </Card>

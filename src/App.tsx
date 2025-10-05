@@ -24,12 +24,10 @@ const EnhancedRewardsPage = lazy(() => import("./pages/EnhancedRewardsPage"));
 const MockDataDemo = lazy(() => import("./pages/MockDataDemo"));
 const NFTDashboard = lazy(() => import("./components/nft/NFTDashboard"));
 const CharacterSelection = lazy(() => import("./components/character/CharacterSelection"));
-
-      // Enhanced features - lazy loaded
-      const CareerPathSystem = lazy(() => import("./components/career/CareerPathSystem"));
-      const AnalyticsDashboard = lazy(() => import("./components/analytics/AnalyticsDashboard"));
-      const ReactiveAnalyticsDashboard = lazy(() => import("./components/analytics/ReactiveAnalyticsDashboard"));
-      const CommunityDashboard = lazy(() => import("./components/community/CommunityDashboard"));
+const CareerPathSystem = lazy(() => import("./components/career/CareerPathSystem"));
+const AnalyticsDashboard = lazy(() => import("./components/analytics/AnalyticsDashboard"));
+const ReactiveAnalyticsDashboard = lazy(() => import("./components/analytics/ReactiveAnalyticsDashboard"));
+const CommunityDashboard = lazy(() => import("./components/community/CommunityDashboard"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -77,13 +75,11 @@ const App = () => (
                 <Route path="/enhanced-rewards" element={<MobileResponsiveWrapper><EnhancedRewardsPage /></MobileResponsiveWrapper>} />
                 <Route path="/mock-data" element={<MobileResponsiveWrapper><MockDataDemo /></MobileResponsiveWrapper>} />
                 <Route path="/demo" element={<MobileResponsiveWrapper><MockDataDemo /></MobileResponsiveWrapper>} />
-                
-                {/* Enhanced Features Routes */}
                 <Route path="/career" element={<MobileResponsiveWrapper><CareerPathSystem /></MobileResponsiveWrapper>} />
                 <Route path="/career-paths" element={<MobileResponsiveWrapper><CareerPathSystem /></MobileResponsiveWrapper>} />
-        <Route path="/analytics" element={<MobileResponsiveWrapper><AnalyticsDashboard /></MobileResponsiveWrapper>} />
-        <Route path="/reactive-analytics" element={<MobileResponsiveWrapper><ReactiveAnalyticsDashboard /></MobileResponsiveWrapper>} />
-        <Route path="/dashboard" element={<MobileResponsiveWrapper><AnalyticsDashboard /></MobileResponsiveWrapper>} />
+                <Route path="/analytics" element={<MobileResponsiveWrapper><AnalyticsDashboard /></MobileResponsiveWrapper>} />
+                <Route path="/reactive-analytics" element={<MobileResponsiveWrapper><ReactiveAnalyticsDashboard /></MobileResponsiveWrapper>} />
+                <Route path="/dashboard" element={<MobileResponsiveWrapper><AnalyticsDashboard /></MobileResponsiveWrapper>} />
                 <Route path="/community" element={<MobileResponsiveWrapper><CommunityDashboard /></MobileResponsiveWrapper>} />
                 <Route path="/governance" element={<MobileResponsiveWrapper><CommunityDashboard /></MobileResponsiveWrapper>} />
                 
@@ -95,6 +91,10 @@ const App = () => (
         </TooltipProvider>
       </QueryClientProvider>
     </WagmiProvider>
+  </ErrorBoundary>
+);
+
+export default App;
   </ErrorBoundary>
 );
 

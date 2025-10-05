@@ -183,41 +183,38 @@ export function useCharacterStats() {
    * Record game completion and award XP
    */
   const recordGameScore = useCallback(async (score: number, baseXP: number = 100) => {
-    if (!signer || !selectedCharacter) {
+    if (!walletClient || !selectedCharacter) {
       throw new Error('No character selected');
     }
 
-    const contract = new ethers.Contract(
-      CHARACTER_CONTRACT_ADDRESS,
-      CHARACTER_ABI,
-      signer
-    );
+    // TODO: Implement with viem when contract is deployed
+    // For now, simulate XP gain and progression
+    const newXP = selectedCharacter.experience + baseXP;
+    const newLevel = Math.floor(newXP / 1000) + 1;
+    const leveledUp = newLevel > selectedCharacter.level;
 
-    const tx = await contract.recordGameCompletion(
-      selectedCharacter.tokenId,
-      score,
-      baseXP
-    );
-    const receipt = await tx.wait();
+    // Update character stats
+    const updatedCharacter = {
+      ...selectedCharacter,
+      experience: newXP,
+      level: newLevel,
+      gamesPlayed: selectedCharacter.gamesPlayed + 1,
+      totalScore: selectedCharacter.totalScore + score,
+    };
 
-    // Check for level up event
-    const levelUpEvent = receipt.events?.find((e: any) => e.event === 'LevelUp');
-    const storyEvent = receipt.events?.find((e: any) => e.event === 'StoryProgression');
-    const loreEvent = receipt.events?.find((e: any) => e.event === 'LoreFragmentDiscovered');
-
-    // Reload character stats
-    await loadPlayerCharacters();
+    setPlayerCharacters(prev => prev.map(c => c.tokenId === selectedCharacter.tokenId ? updatedCharacter : c));
+    setSelectedCharacter(updatedCharacter);
 
     return {
-      leveledUp: !!levelUpEvent,
-      newLevel: levelUpEvent?.args?.newLevel?.toNumber(),
-      storyUnlocked: !!storyEvent,
-      arc: storyEvent?.args?.arc?.toNumber(),
-      chapter: storyEvent?.args?.chapter?.toNumber(),
-      loreDiscovered: !!loreEvent,
-      fragmentId: loreEvent?.args?.fragmentId?.toNumber()
+      leveledUp,
+      newLevel: leveledUp ? newLevel : undefined,
+      storyUnlocked: false,
+      arc: undefined,
+      chapter: undefined,
+      loreDiscovered: Math.random() < 0.05, // 5% chance
+      fragmentId: undefined
     };
-  }, [signer, selectedCharacter, loadPlayerCharacters]);
+  }, [walletClient, selectedCharacter]);
 
   /**
    * Calculate modified score based on character class

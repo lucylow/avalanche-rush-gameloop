@@ -102,6 +102,10 @@ const AvalancheRushGame = () => {
       setNotifications(prev => [...prev, 'Please connect your wallet to start playing']);
       return;
     }
+    if (!selectedCharacter) {
+      setNotifications(prev => [...prev, 'Please select a character to play']);
+      return;
+    }
 
     setIsLoading(true);
     try {
@@ -127,7 +131,7 @@ const AvalancheRushGame = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [isConnected, startGameSession]);
+  }, [isConnected, selectedCharacter, startGameSession]);
 
   // End game function
   const endGame = useCallback(async (finalScore: number) => {
@@ -135,7 +139,6 @@ const AvalancheRushGame = () => {
 
     setIsLoading(true);
     try {
-      // Apply character modifiers to final score
       const modifiedScore = calculateModifiedScore(finalScore, comboMultiplier);
 
       await completeGameSession(currentSessionId, modifiedScore, [], [], []);

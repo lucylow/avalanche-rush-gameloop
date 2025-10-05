@@ -1092,7 +1092,6 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
     // Achievement icon
     ctx.font = '80px Arial';
     ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
     ctx.fillStyle = '#ffffff';
     ctx.shadowColor = '#ffdd00';
     ctx.shadowBlur = 20;
@@ -1481,6 +1480,7 @@ const GameEngine = React.memo(forwardRef<GameEngineRef, GameEngineProps>(({
         ctx.shadowBlur = 15 * abilityGlow;
       }
 
+      ctx.fillStyle = isReady ? ability.color : '#666666';
       ctx.fillStyle = isReady ? ability.color : '#666666';
       ctx.font = 'bold 14px Arial';
       ctx.fillText(ability.icon, abilityPanelX + 10, y);
