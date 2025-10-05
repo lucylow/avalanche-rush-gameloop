@@ -10,6 +10,8 @@ import TutorialManager from '../tutorial/TutorialManager';
 import EnhancedGameEngine, { GameEngineRef } from './EnhancedGameEngine';
 import { useSmartContracts } from '../../hooks/useSmartContracts';
 import { BookOpen, Play } from 'lucide-react';
+import { ScoreSystem } from '../../utils/ScoreSystem';
+import { ScoreDisplay } from '../ScoreDisplay';
 
 // Import new enhancement components
 import CrossChainQuestSystem from '../quest/CrossChainQuestSystem';
@@ -105,6 +107,7 @@ const AvalancheRushGame: React.FC<AvalancheRushGameProps> = ({ demoMode = false 
   const [showGasOptimization, setShowGasOptimization] = useState(false);
   const [showRealTimeMultiplayer, setShowRealTimeMultiplayer] = useState(false);
   const [showModularContracts, setShowModularContracts] = useState(false);
+  const [scoreSystem] = useState(() => new ScoreSystem());
 
   // Load player profile when wallet connects
   useEffect(() => {
@@ -268,6 +271,27 @@ const AvalancheRushGame: React.FC<AvalancheRushGameProps> = ({ demoMode = false 
       setIsLoading(false);
     }
   }, [currentSessionId, completeGameSession, effectiveIsConnected]);
+
+  // Example: handle player scoring action
+  const handlePlayerScores = useCallback(() => {
+    const pointsGained = scoreSystem.addPoint();
+    setGameState(prev => ({
+      ...prev,
+      score: scoreSystem.currentScore,
+      highScore: scoreSystem.highScore
+    }));
+    // ...trigger UI effects...
+  }, [scoreSystem]);
+
+  // Example: handle player miss
+  const handlePlayerMissed = useCallback(() => {
+    scoreSystem.resetCombo();
+    setGameState(prev => ({
+      ...prev,
+      score: scoreSystem.currentScore,
+      highScore: scoreSystem.highScore
+    }));
+  }, [scoreSystem]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col relative overflow-hidden">
