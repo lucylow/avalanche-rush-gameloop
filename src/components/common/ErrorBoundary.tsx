@@ -39,7 +39,7 @@ class ErrorBoundary extends Component<Props, State> {
   static getDerivedStateFromError(error: Error): Partial<State> {
     // Generate a unique error ID for tracking
     const errorId = `error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+
     return {
       hasError: true,
       error,
@@ -49,10 +49,10 @@ class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     const { onError } = this.props;
-    
+
     // Log error details
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
+
     // Call custom error handler if provided
     if (onError) {
       try {
@@ -79,10 +79,10 @@ class ErrorBoundary extends Component<Props, State> {
 
     // Reset error boundary when resetKeys change
     if (hasError && resetKeys && prevProps.resetKeys) {
-      const hasResetKeyChanged = resetKeys.some((key, index) => 
+      const hasResetKeyChanged = resetKeys.some((key, index) =>
         key !== prevProps.resetKeys![index]
       );
-      
+
       if (hasResetKeyChanged) {
         this.resetErrorBoundary();
       }
@@ -101,8 +101,6 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   private logErrorToService = (error: Error, errorInfo: ErrorInfo) => {
-    // In a real application, you would send this to an error reporting service
-    // like Sentry, LogRocket, or Bugsnag
     try {
       const errorReport = {
         message: error.message,
@@ -112,11 +110,11 @@ class ErrorBoundary extends Component<Props, State> {
         timestamp: new Date().toISOString(),
         userAgent: navigator.userAgent,
         url: window.location.href,
-        userId: this.getCurrentUserId(), // Implement this method
-        sessionId: this.getSessionId(), // Implement this method
+        userId: getCurrentUserId(),
+        sessionId: getSessionId(),
         additionalInfo: {
           retryCount: this.state.retryCount,
-          previousErrors: this.getPreviousErrors()
+          previousErrors: getPreviousErrors()
         }
       };
 
@@ -128,14 +126,9 @@ class ErrorBoundary extends Component<Props, State> {
     }
   };
 
-  private getCurrentUserId = getCurrentUserId;
-  private getSessionId = getSessionId;
-  private getPreviousErrors = getPreviousErrors;
-  private updateErrorHistory = updateErrorHistory;
-
   resetErrorBoundary = () => {
-    this.updateErrorHistory(this.state.errorId);
-    
+    updateErrorHistory(this.state.errorId);
+
     this.setState({
       hasError: false,
       error: null,

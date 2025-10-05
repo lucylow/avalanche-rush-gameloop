@@ -2,6 +2,7 @@ import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { getCurrentUserId, getSessionId, getPreviousErrors, updateErrorHistory } from './common/errorBoundaryUtils';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -38,7 +39,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Log error details
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
+
     // Update state with error info
     this.setState({
       error,
@@ -62,10 +63,10 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
     // Reset error boundary if resetKeys change
     if (hasError && resetKeys && prevProps.resetKeys) {
-      const hasResetKeyChanged = resetKeys.some((key, index) => 
+      const hasResetKeyChanged = resetKeys.some((key, index) =>
         key !== prevProps.resetKeys![index]
       );
-      
+
       if (hasResetKeyChanged) {
         this.resetErrorBoundary();
       }
@@ -93,7 +94,10 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
       url: window.location.href,
-      errorId: this.state.errorId
+      errorId: this.state.errorId,
+      userId: getCurrentUserId(),
+      sessionId: getSessionId(),
+      previousErrors: getPreviousErrors()
     };
 
     console.log('Error report:', errorReport);
@@ -107,6 +111,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   };
 
   private resetErrorBoundary = () => {
+    updateErrorHistory(this.state.errorId);
     this.setState({ hasError: false, error: undefined, errorInfo: undefined });
   };
 
