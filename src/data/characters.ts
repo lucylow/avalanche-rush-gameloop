@@ -1376,7 +1376,7 @@ export const NFT_CHARACTERS: Character[] = [
           { type: 'score', value: 15000, description: 'Achieve 15 kill chains.' }
         ],
         changes: {
-          attributeBonus: { precision: 15, luck: 5 },
+          attributeBonus: { agility: 15, luck: 5 },
           newSkills: ['Kill Chain'],
           visualChanges: ['Weapons glow with pixel energy']
         }
@@ -1388,7 +1388,7 @@ export const NFT_CHARACTERS: Character[] = [
           { type: 'score', value: 75000, description: 'Achieve 75 kill chains.' }
         ],
         changes: {
-          attributeBonus: { precision: 25, agility: 10 },
+          attributeBonus: { agility: 25, speed: 10 },
           newSkills: ['Bullet Time'],
           visualChanges: ['Outfit changes to legendary gunslinger']
         }

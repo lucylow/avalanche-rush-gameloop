@@ -95,7 +95,3 @@ const App = () => (
 );
 
 export default App;
-  </ErrorBoundary>
-);
-
-export default App;

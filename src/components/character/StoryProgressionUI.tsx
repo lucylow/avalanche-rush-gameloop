@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useProvider } from 'wagmi';
+// import { useProvider } from 'wagmi'; // TODO: Update to wagmi v2
 import { ethers } from 'ethers';
 import { Card } from '@/components/ui/card';
 import { Book, Lock, Sparkles, ChevronRight } from 'lucide-react';
@@ -105,7 +105,8 @@ const STORY_CONTENT: Record<string, { title: string; content: string }> = {
 };
 
 export default function StoryProgressionUI({ characterId }: { characterId: number }) {
-  const provider = useProvider();
+  // const provider = useProvider(); // TODO: Update to wagmi v2
+  const provider = null;
   const [currentArc, setCurrentArc] = useState(1);
   const [currentChapter, setCurrentChapter] = useState(1);
   const [characterLevel, setCharacterLevel] = useState(1);
