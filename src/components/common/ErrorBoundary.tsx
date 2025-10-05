@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { AlertTriangle, RefreshCw, Home, Bug } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { getCurrentUserId, getSessionId, getPreviousErrors, updateErrorHistory } from './errorBoundaryUtils';
+import { getCurrentUserId, getSessionId, getPreviousErrors, updateErrorHistory } from '@/components/common/errorBoundaryUtils';
 
 interface Props {
   children: ReactNode;

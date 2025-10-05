@@ -16,22 +16,23 @@ export default defineConfig(({ mode }) => ({
     },
   },
   define: {
-    global: 'globalThis',
-    'process.env': JSON.stringify(process.env),
+    // Only define what you need for build-time replacement
+    "process.env": process.env,
+    global: "globalThis"
   },
   build: {
-    target: 'esnext',
-    minify: 'esbuild',
+    target: "esnext",
+    minify: "esbuild",
     chunkSizeWarningLimit: 1000,
   },
   optimizeDeps: {
     include: [
-      'react',
-      'react-dom',
-      'react-router-dom',
-      'framer-motion',
-      'ethers',
-      '@tanstack/react-query'
+      "react",
+      "react-dom",
+      "react-router-dom",
+      "framer-motion",
+      "ethers",
+      "@tanstack/react-query"
     ]
   }
 }));
