@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Play, 
-  Trophy, 
-  Star, 
-  Zap, 
-  Shield, 
-  Users, 
-  Award, 
+import {
+  Play,
+  Trophy,
+  Star,
+  Zap,
+  Shield,
+  Users,
+  Award,
   Target,
   ArrowRight,
   Sparkles,
@@ -625,10 +625,10 @@ const Index = () => {
             <p className="text-xl text-white/70 mb-10 leading-relaxed max-w-2xl mx-auto">
               Join thousands of players already earning while playing. No experience required.
             </p>
-            <motion.a 
+            <motion.a
               whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
-              href="/play" 
+              href="/play"
               className="bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 text-white px-12 py-5 rounded-full font-bold text-xl hover:shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 inline-flex items-center gap-4 group"
             >
               <Rocket className="w-6 h-6 group-hover:scale-110 transition-transform" />
@@ -641,6 +641,16 @@ const Index = () => {
             </p>
           </motion.div>
         </div>
+      </section>
+
+      {/* Live Global Leaderboard - From Landing Page */}
+      <section className="relative">
+        <LiveLeaderboard />
+      </section>
+
+      {/* Achievements Showcase - From Landing Page */}
+      <section className="relative">
+        <AchievementsShowcase />
       </section>
 
       {/* Footer */}
