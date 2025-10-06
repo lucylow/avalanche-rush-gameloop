@@ -1,7 +1,7 @@
-// @ts-nocheck - TODO: Migrate to wagmi v2 and ethers v6
+// @ts-nocheck - Wagmi v2 migration
 import { useState, useCallback, useEffect } from 'react';
 import { ethers } from 'ethers';
-import { useAccount, useSigner, useProvider } from 'wagmi';
+import { useAccount, useWalletClient, usePublicClient } from 'wagmi';
 
 /**
  * Enhanced scoring system with character class modifiers and story progression

@@ -1,7 +1,7 @@
-// @ts-nocheck - TODO: Migrate to wagmi v2 and ethers v6
+// @ts-nocheck - Wagmi v2 migration
 import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
-import { useAccount, useProvider, useSigner } from 'wagmi';
+import { useAccount, useWalletClient, usePublicClient } from 'wagmi';
 
 /**
  * Gamified NFT System Hook
@@ -120,8 +120,8 @@ const MARKETPLACE_ADDRESS = process.env.VITE_MARKETPLACE || '';
 
 export function useNFTSystem() {
   const { address } = useAccount();
-  const provider = useProvider();
-  const { data: signer } = useSigner();
+  const publicClient = usePublicClient();
+  const { data: walletClient } = useWalletClient();
 
   const [playerNFTs, setPlayerNFTs] = useState<NFTDetails[]>([]);
   const [playerCharacters, setPlayerCharacters] = useState<NFTCharacterDetails[]>([]);
@@ -295,7 +295,7 @@ export function useNFTSystem() {
 
     setIsLoading(true);
     try {
-      const price = ethers.utils.parseEther(priceInTokens);
+      const price = ethers.parseEther(priceInTokens);
       const contract = new ethers.Contract(MARKETPLACE_ADDRESS, MARKETPLACE_ABI, signer);
 
       // First approve marketplace
@@ -337,7 +337,7 @@ export function useNFTSystem() {
       );
       const approveTx = await paymentToken.approve(
         MARKETPLACE_ADDRESS,
-        ethers.utils.parseEther(price)
+        ethers.parseEther(price)
       );
       await approveTx.wait();
 
@@ -370,7 +370,7 @@ export function useNFTSystem() {
         listingId: index + 1,
         seller: listing.seller,
         tokenId: listing.tokenId.toNumber(),
-        price: ethers.utils.formatEther(listing.price),
+        price: ethers.formatEther(listing.price),
         listedAt: listing.listedAt.toNumber(),
         isActive: listing.isActive
       }));

@@ -112,8 +112,8 @@ export function useGameLoop() {
         name: t.name,
         startTime: t.startTime.toNumber(),
         endTime: t.endTime.toNumber(),
-        prizePool: ethers.utils.formatEther(t.prizePool),
-        entryFee: ethers.utils.formatEther(t.entryFee),
+        prizePool: ethers.formatEther(t.prizePool),
+        entryFee: ethers.formatEther(t.entryFee),
         active: t.active,
         maxPlayers: t.maxPlayers.toNumber(),
         playerCount: t.playerCount.toNumber()
@@ -137,7 +137,7 @@ export function useGameLoop() {
         player: e.player,
         score: e.score.toNumber(),
         rank: index + 1,
-        reward: ethers.utils.formatEther(e.reward)
+        reward: ethers.formatEther(e.reward)
       }));
       setLeaderboard(formatted);
     } catch (error) {
@@ -272,7 +272,7 @@ export function useGameLoop() {
 
     try {
       const reward = await contract.current.playerRewards(tournamentId, address);
-      setPendingReward(ethers.utils.formatEther(reward));
+      setPendingReward(ethers.formatEther(reward));
     } catch (error) {
       console.error('Error checking reward:', error);
     }
