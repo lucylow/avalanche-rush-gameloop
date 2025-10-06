@@ -5,14 +5,14 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { 
-  Database, 
-  Users, 
-  Trophy, 
-  Star, 
-  Medal, 
-  Zap, 
-  Play, 
+import {
+  Database,
+  Users,
+  Trophy,
+  Star,
+  Medal,
+  Zap,
+  Play,
   Pause,
   RefreshCw,
   Eye,
@@ -109,7 +109,7 @@ const MockDataDemo: React.FC = () => {
               <div className="text-purple-200 text-sm">Players</div>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-gradient-to-br from-purple-800/50 to-blue-800/50 border-purple-500/30">
             <CardContent className="p-4 text-center">
               <Target className="h-6 w-6 text-green-400 mx-auto mb-2" />
@@ -117,7 +117,7 @@ const MockDataDemo: React.FC = () => {
               <div className="text-purple-200 text-sm">Quests</div>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-gradient-to-br from-purple-800/50 to-blue-800/50 border-purple-500/30">
             <CardContent className="p-4 text-center">
               <Award className="h-6 w-6 text-yellow-400 mx-auto mb-2" />
@@ -125,7 +125,7 @@ const MockDataDemo: React.FC = () => {
               <div className="text-purple-200 text-sm">NFTs</div>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-gradient-to-br from-purple-800/50 to-blue-800/50 border-purple-500/30">
             <CardContent className="p-4 text-center">
               <Crown className="h-6 w-6 text-purple-400 mx-auto mb-2" />
@@ -133,7 +133,7 @@ const MockDataDemo: React.FC = () => {
               <div className="text-purple-200 text-sm">Guilds</div>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-gradient-to-br from-purple-800/50 to-blue-800/50 border-purple-500/30">
             <CardContent className="p-4 text-center">
               <Trophy className="h-6 w-6 text-orange-400 mx-auto mb-2" />
@@ -141,7 +141,7 @@ const MockDataDemo: React.FC = () => {
               <div className="text-purple-200 text-sm">Tournaments</div>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-gradient-to-br from-purple-800/50 to-blue-800/50 border-purple-500/30">
             <CardContent className="p-4 text-center">
               <Zap className="h-6 w-6 text-pink-400 mx-auto mb-2" />
@@ -511,91 +511,6 @@ const MockDataDemo: React.FC = () => {
             </div>
           </TabsContent>
         </Tabs>
-      </div>
-    </div>
-  );
-};
-
-export default MockDataDemo;
-                    <span className="text-white font-semibold">{analytics.gameMetrics.totalGamesPlayed.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-purple-200">Average Score</span>
-                    <span className="text-white font-semibold">{analytics.gameMetrics.averageScore.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-purple-200">Highest Score</span>
-                    <span className="text-white font-semibold">{analytics.gameMetrics.highestScore.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-purple-200">Quest Completion</span>
-                    <span className="text-white font-semibold">{(analytics.userMetrics.questCompletionRate * 100).toFixed(1)}%</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Blockchain Metrics */}
-              <Card className="bg-gradient-to-br from-purple-800/50 to-blue-800/50 border-purple-500/30">
-                <CardHeader>
-                  <CardTitle className="text-white flex items-center gap-2">
-                    <BarChart3 className="h-5 w-5" />
-                    Blockchain Metrics
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex justify-between">
-                    <span className="text-purple-200">Total Transactions</span>
-                    <span className="text-white font-semibold">{analytics.blockchainMetrics.totalTransactions.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-purple-200">Contract Interactions</span>
-                    <span className="text-white font-semibold">{analytics.blockchainMetrics.contractInteractions.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-purple-200">NFT Mints</span>
-                    <span className="text-white font-semibold">{analytics.blockchainMetrics.nftMints.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-purple-200">Token Transfers</span>
-                    <span className="text-white font-semibold">{analytics.blockchainMetrics.tokenTransfers.toLocaleString()}</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Rewards Distribution */}
-              {analytics.rewardsDistribution && (
-                <Card className="bg-gradient-to-br from-purple-800/50 to-blue-800/50 border-purple-500/30">
-                  <CardHeader>
-                    <CardTitle className="text-white flex items-center gap-2">
-                      <Gift className="h-5 w-5" />
-                      Rewards Distribution
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex justify-between">
-                      <span className="text-purple-200">Total Rewards</span>
-                      <span className="text-white font-semibold">{analytics.rewardsDistribution.totalRewards.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-purple-200">Average Reward</span>
-                      <span className="text-white font-semibold">{analytics.rewardsDistribution.averageReward.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-purple-200">Pending Claims</span>
-                      <span className="text-white font-semibold">{analytics.rewardsDistribution.pendingClaims}</span>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
-
-        {/* Mock Data Toggle Modal */}
-        <MockDataToggle 
-          isOpen={showMockDataToggle} 
-          onClose={() => setShowMockDataToggle(false)} 
-        />
       </div>
     </div>
   );

@@ -14,7 +14,9 @@
       "Bash(timeout 20 npm run dev)",
       "Bash(git mv:*)",
       "Bash(git add:*)",
-      "Bash(pkill:*)"
+      "Bash(pkill:*)",
+      "Bash(timeout:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []

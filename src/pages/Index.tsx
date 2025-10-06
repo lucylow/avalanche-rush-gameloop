@@ -643,14 +643,148 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Live Global Leaderboard - From Landing Page */}
-      <section className="relative">
-        <LiveLeaderboard />
+      {/* Next Gen Gaming Features - From Landing Page */}
+      <section className="py-24 px-8 bg-gradient-to-br from-slate-900 via-purple-900/30 to-slate-900 relative">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl lg:text-6xl font-black mb-6">
+              <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                Next-Gen Gaming
+              </span>
+              <br />
+              <span className="text-white">Meets Blockchain</span>
+            </h2>
+            <p className="text-xl text-white/70 max-w-3xl mx-auto">
+              Experience the future with cutting-edge features powered by Avalanche
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { icon: <Zap className="w-8 h-8" />, title: "Lightning Fast", desc: "Sub-second finality on Avalanche C-Chain", color: "from-yellow-500 to-orange-500" },
+              { icon: <Shield className="w-8 h-8" />, title: "Secure Ownership", desc: "True asset ownership with blockchain security", color: "from-blue-500 to-cyan-500" },
+              { icon: <Users className="w-8 h-8" />, title: "Global Community", desc: "Join 15,000+ players worldwide", color: "from-purple-500 to-pink-500" },
+              { icon: <Award className="w-8 h-8" />, title: "Real Rewards", desc: "$250K+ distributed to players", color: "from-green-500 to-emerald-500" },
+            ].map((feature, i) => (
+              <motion.div
+                key={i}
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -10, scale: 1.05 }}
+                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 hover:bg-white/10 transition-all duration-300"
+              >
+                <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-4 mx-auto`}>
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2 text-center">{feature.title}</h3>
+                <p className="text-white/70 text-center text-sm">{feature.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* Achievements Showcase - From Landing Page */}
-      <section className="relative">
-        <AchievementsShowcase />
+      {/* Global Leaderboard - From Landing Page */}
+      <section className="py-24 px-8 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-pink-900/20 relative">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl lg:text-6xl font-black mb-6">
+              <span className="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                Global Leaderboard
+              </span>
+              <br />
+              <span className="text-white">Top Players</span>
+            </h2>
+            <p className="text-xl text-white/70">
+              Compete with the best players from around the world
+            </p>
+          </motion.div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden">
+              {/* Leaderboard Header */}
+              <div className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 p-6 border-b border-white/10">
+                <div className="grid grid-cols-12 gap-4 text-white/60 text-sm font-semibold">
+                  <div className="col-span-1">Rank</div>
+                  <div className="col-span-5">Player</div>
+                  <div className="col-span-3">Score</div>
+                  <div className="col-span-3">NFTs</div>
+                </div>
+              </div>
+
+              {/* Leaderboard Entries */}
+              <div className="divide-y divide-white/5">
+                {[
+                  { rank: 1, player: '0x742d...35a1', score: '15,420', nfts: 12, emoji: '🥇' },
+                  { rank: 2, player: '0x8b39...92cf', score: '14,280', nfts: 8, emoji: '🥈' },
+                  { rank: 3, player: '0x3c81...67de', score: '13,850', nfts: 15, emoji: '🥉' },
+                  { rank: 4, player: '0x9a12...48bb', score: '12,560', nfts: 6, emoji: '⭐' },
+                  { rank: 5, player: '0x5e27...83aa', score: '11,890', nfts: 10, emoji: '⚡' },
+                  { rank: 6, player: '0x6f34...92cd', score: '10,450', nfts: 5, emoji: '🔥' },
+                  { rank: 7, player: '0x4a21...67ef', score: '9,820', nfts: 7, emoji: '💎' },
+                  { rank: 8, player: '0x7b45...83gh', score: '8,960', nfts: 4, emoji: '🎯' },
+                ].map((entry, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ x: -50, opacity: 0 }}
+                    whileInView={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.4, delay: i * 0.05 }}
+                    viewport={{ once: true }}
+                    className="grid grid-cols-12 gap-4 p-6 hover:bg-white/5 transition-all duration-300 cursor-pointer group"
+                  >
+                    <div className="col-span-1 flex items-center">
+                      <div className="text-2xl font-bold text-white/80 group-hover:scale-110 transition-transform">
+                        {entry.emoji}
+                      </div>
+                    </div>
+                    <div className="col-span-5 flex items-center gap-3">
+                      <div className="text-white font-medium">{entry.player}</div>
+                    </div>
+                    <div className="col-span-3 flex items-center">
+                      <div className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                        {entry.score}
+                      </div>
+                    </div>
+                    <div className="col-span-3 flex items-center">
+                      <div className="flex items-center gap-2 text-white/70">
+                        <Trophy className="w-4 h-4" />
+                        {entry.nfts}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* View Full Leaderboard Button */}
+              <div className="p-6 bg-gradient-to-r from-purple-500/10 to-blue-500/10 border-t border-white/10">
+                <motion.a
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  href="/leaderboard"
+                  className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 flex items-center gap-3 justify-center w-full group"
+                >
+                  <Trophy className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  View Full Leaderboard
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </motion.a>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Footer */}
