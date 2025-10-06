@@ -1,183 +1,168 @@
-# 🏔️ Avalanche Rush - Reactive Network Hackathon
+# 🏔️ Avalanche Rush - Blockchain Gaming Platform
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Solidity](https://img.shields.io/badge/Solidity-363636?logo=solidity&logoColor=white)](https://soliditylang.org/)
 [![Avalanche](https://img.shields.io/badge/Avalanche-E84142?logo=avalanche&logoColor=white)](https://www.avax.network/)
-[![Reactive Network](https://img.shields.io/badge/Reactive_Network-FF6B35?logo=reactive&logoColor=white)](https://reactive.network/)
 
-**Reactive Network Smart Contract Hackathon Submission** - Educational gaming platform that maximizes Reactive Network usage while providing genuine DeFi education utility.
+Educational gaming platform that rewards players for learning and interacting with DeFi protocols on Avalanche.
 
 ## 🎯 Overview
 
-Avalanche Rush is a learn-to-earn gaming platform built for the Reactive Network hackathon that automatically rewards players for learning and interacting with DeFi protocols across multiple chains. The platform demonstrates advanced Reactive Network integration with real-time cross-chain event processing, automated quest completion, and dynamic reward distribution.
-
-### 🌟 Key Features
-
-- **⚡ Reactive Network Integration**: Real-time cross-chain event processing and automated quest completion
-- **🎮 Educational Gaming**: Learn DeFi while playing engaging games with instant rewards
-- **🏆 Achievement System**: Cross-chain achievements with NFT rewards triggered by Reactive Network events
-- **🌐 Multi-Chain Support**: Avalanche, Ethereum, Polygon, BSC with seamless cross-chain interactions
-- **📊 Real-time Analytics**: Advanced analytics dashboard powered by Reactive Network data
-- **🎓 Certification System**: Verifiable NFT certificates for completed educational modules
+Avalanche Rush is a learn-to-earn gaming platform featuring:
+- 🎮 **Educational Gaming** - Learn DeFi while playing engaging games
+- 🏆 **NFT System** - Achievement, power-up, and character NFTs
+- 🎁 **Loot Box System** - 5 tiers of rewards (Bronze to Mythic)
+- 📊 **Analytics Dashboard** - Track your progress and stats
+- 🌐 **Multi-Chain Support** - Built for Avalanche C-Chain
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ and npm
+- Node.js 18+
 - MetaMask or compatible Web3 wallet
 - Avalanche Fuji testnet AVAX
 
 ### Installation
 
-1. **Clone and install**
-   ```bash
-   git clone https://github.com/your-username/avalanche-rush.git
-   cd avalanche-rush
-   npm install
-   ```
+```bash
+# Clone and install
+git clone https://github.com/your-username/avalanche-rush.git
+cd avalanche-rush
+npm install
 
-2. **Environment setup**
-   ```bash
-   cp .env.example .env
-   ```
-   
-   Configure your `.env`:
-   ```env
-   # Contract Addresses (Avalanche Fuji Testnet)
-   VITE_AVALANCHE_RUSH_CORE_ADDRESS=0x742d35Cc5A6bA1d9F8Bc8aBc35dD7428f35a9E1
-   VITE_REACTIVE_QUEST_ENGINE_ADDRESS=0x742d35Cc5A6bA1d9F8Bc8aBc35dD7428f35a9E1
-   VITE_RUSH_TOKEN_ADDRESS=0x742d35Cc5A6bA1d9F8Bc8aBc35dD7428f35a9E1
-   
-   # Chain Configuration
-   VITE_DEFAULT_CHAIN_ID=43113
-   VITE_SUPPORTED_CHAIN_IDS=43113,43114,1,137,56
-   ```
+# Setup environment
+cp env.example .env
+# Edit .env with your contract addresses
 
-3. **Start development**
-   ```bash
-   npm run dev
-   ```
-
-## 🏗️ Reactive Network Architecture
-
-```mermaid
-graph TB
-    subgraph "Reactive Network Layer"
-        A[Reactive VM] --> B[Event Processing]
-        B --> C[Cross-Chain Monitoring]
-        C --> D[Automated Quest Completion]
-        D --> E[Reward Distribution]
-    end
-    
-    subgraph "Smart Contract Layer"
-        F[AvalancheRushCore] --> G[ReactiveQuestEngine]
-        G --> H[EducationalNFT]
-        H --> I[RushToken]
-        I --> J[ReactiveAnalyticsDashboard]
-    end
-    
-    subgraph "Frontend Layer"
-        K[React App] --> L[Game Engine]
-        L --> M[Web3 Integration]
-        M --> N[Real-time Updates]
-    end
-    
-    A --> F
-    E --> I
-    N --> A
+# Start development server
+npm run dev
 ```
 
-## 📊 Smart Contracts
+Visit `http://localhost:8082` and start playing!
 
-### Core Contracts
-- **`AvalancheRushCore.sol`** - Main game logic and player management
-- **`ReactiveQuestEngine.sol`** - Reactive Network integration for automated quest completion
-- **`RushToken.sol`** - ERC-20 utility token with reward mechanisms
-- **`EducationalNFT.sol`** - Achievement and certification NFTs
+## 🎮 Features
 
-### Reactive Network Integration
-- **`ReactiveQuestEngineAdvanced.sol`** - Advanced quest automation with cross-chain event processing
-- **`ReactiveAnalyticsDashboard.sol`** - Real-time analytics and optimization
-- **`ReactiveBountySystem.sol`** - Automated bounty distribution for quest completion
+### Game Modes
+- **🏃 Rush Runner** - Fast-paced obstacle course
+- **🏰 Tower Defense** - Strategic defense gameplay
+- **🎯 Pixel Shooter** - Classic arcade action
+- **🔧 Puzzle Mode** - Brain-teasing challenges
 
-### Avalanche-Specific Features
-- **`AvalancheDeFiIntegration.sol`** - DeFi protocol integration (Trader Joe, Pangolin, Benqi)
-- **`AvalancheSubnetIntegration.sol`** - Subnet integration and cross-chain bridging
-- **`AvalancheWarpMessaging.sol`** - Cross-subnet communication using Warp Messaging
+### NFT Ecosystem
+- **Achievement NFTs** - Unlock by completing challenges
+- **Power-Up NFTs** - Boost your gameplay stats
+- **Character NFTs** - Unique playable characters with abilities
+- **Evolution System** - Level up your NFTs
+- **Marketplace** - Trade NFTs with other players
 
-## 🎮 Gameplay & Reactive Network Integration
+### Loot Box System
+Five tiers of loot boxes with increasing rarity drops:
+- 🥉 Bronze (70% Common, 25% Rare, 5% Epic)
+- 🥈 Silver (50% Common, 35% Rare, 15% Epic)
+- 🥇 Gold (30% Rare, 50% Epic, 20% Legendary)
+- 💎 Diamond (20% Epic, 60% Legendary, 20% Mythic)
+- ✨ Mythic (100% Mythic with bonus rewards)
 
-### Automated Quest System
-The Reactive Network automatically detects and processes:
-- **DeFi Interactions**: Swaps, lending, staking across multiple chains
-- **Cross-Chain Activities**: Bridge transactions, cross-chain swaps
-- **Educational Progress**: Course completion, certification achievements
-- **Social Engagement**: Tournament participation, community contributions
+## 📚 Documentation
 
-### Real-Time Rewards
-- **Instant Quest Completion**: Reactive Network triggers quest completion upon detecting qualifying transactions
-- **Cross-Chain Achievement Unlocking**: Achievements automatically unlock based on multi-chain activity
-- **Dynamic Reward Distribution**: RUSH tokens and NFTs minted in real-time based on Reactive Network events
+Detailed documentation is available in the [`docs/`](./docs) folder:
+
+### Getting Started
+- [Game Features Guide](./docs/GAME_FEATURES.md) - Overview of all game features
+- [New Features Summary](./docs/NEW_FEATURES_SUMMARY.md) - Latest additions and updates
+
+### NFT System
+- [NFT Implementation Guide](./docs/GAMIFIED_NFT_GUIDE.md) - Complete NFT system guide
+- [NFT Quick Reference](./docs/NFT_QUICK_REFERENCE.md) - Quick reference for developers
+- [NFT Implementation Summary](./docs/NFT_IMPLEMENTATION_SUMMARY.md) - Technical details
+
+### Character System
+- [Character System Guide](./docs/CHARACTER_SYSTEM_GUIDE.md) - Character abilities and progression
+- [Character Implementation](./docs/CHARACTER_SYSTEM_IMPLEMENTATION.md) - Technical implementation
+
+### Integration & Development
+- [Integration Examples](./docs/INTEGRATION_EXAMPLE.md) - Code examples for integration
+- [Landing Page Guide](./docs/LANDING_PAGE_GUIDE.md) - Landing page customization
+- [Enhanced Rewards System](./docs/ENHANCED_REWARDS_SYSTEM_COMPLETE.md) - Reward mechanics
+
+### Troubleshooting
+- [Error Fixes Summary](./docs/ERROR_FIXES_SUMMARY.md) - Common issues and solutions
+- [Fixes Applied](./docs/FIXES_APPLIED.md) - Recent bug fixes
 
 ## 💻 Technology Stack
 
-- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS
-- **Blockchain**: Solidity 0.8.19, Hardhat, OpenZeppelin
-- **Web3**: Wagmi, Viem, WalletConnect
-- **Reactive Network**: Custom integration for cross-chain event processing
-- **Deployment**: Avalanche Fuji Testnet, IPFS for metadata
+**Frontend**
+- React 18 + TypeScript
+- Vite for fast builds
+- Tailwind CSS + shadcn/ui components
+- Framer Motion for animations
 
-## 🔧 Development
+**Blockchain**
+- Solidity 0.8.x
+- Ethers.js v6
+- Wagmi v2 for Web3 integration
+- Avalanche C-Chain
 
-### Scripts
+**Development**
+- Hardhat for smart contract development
+- ESLint + TypeScript for code quality
+- Git for version control
+
+## 🔧 Development Scripts
+
 ```bash
 npm run dev          # Start development server
 npm run build        # Build for production
-npm run test         # Run tests
-npm run deploy       # Deploy contracts
-npm run verify       # Verify contracts on explorer
+npm run preview      # Preview production build
+npm run lint         # Run ESLint
 ```
 
-### Contract Deployment
+### Smart Contract Development
+
 ```bash
-# Deploy to Avalanche Fuji
+# Deploy contracts to Avalanche Fuji
 npx hardhat run scripts/deploy.js --network avalancheFuji
 
 # Verify contracts
 npx hardhat verify --network avalancheFuji <CONTRACT_ADDRESS>
 ```
 
-## 🧪 Testing
+## 📁 Project Structure
 
-```bash
-# Run all tests
-npm test
-
-# Run specific test suites
-npm run test:contracts
-npm run test:integration
-npm run test:reactive
+```
+avalanche-rush/
+├── src/
+│   ├── components/     # React components
+│   │   ├── game/       # Game-related components
+│   │   ├── nft/        # NFT system components
+│   │   ├── character/  # Character selection
+│   │   └── ui/         # UI components
+│   ├── hooks/          # Custom React hooks
+│   ├── pages/          # Page components
+│   └── lib/            # Utilities and config
+├── contracts/          # Solidity smart contracts
+├── scripts/            # Deployment scripts
+├── docs/               # Documentation
+└── public/             # Static assets
 ```
 
-## 📈 Reactive Network Analytics
+## 🎯 Roadmap
 
-The platform includes comprehensive analytics powered by Reactive Network:
-- **Cross-Chain Activity Tracking**: Monitor user interactions across all supported chains
-- **Quest Completion Analytics**: Real-time quest completion rates and patterns
-- **Reward Distribution Metrics**: Token and NFT distribution analytics
-- **Performance Optimization**: Automated game balance adjustments based on user behavior
-
-## 🔒 Security
-
-- **Audited Contracts**: OpenZeppelin security patterns
-- **Reentrancy Protection**: All external calls protected
-- **Access Control**: Role-based permissions for admin functions
-- **Input Validation**: Comprehensive parameter validation
-- **Emergency Functions**: Pause and emergency withdrawal capabilities
+- [x] Core gameplay mechanics
+- [x] NFT system implementation
+- [x] Character selection system
+- [x] Loot box mechanics
+- [x] Marketplace integration
+- [ ] Tournament system
+- [ ] Guild features
+- [ ] Cross-chain bridge
+- [ ] Mobile app
 
 ## 🤝 Contributing
+
+Contributions are welcome! Please:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -189,15 +174,14 @@ The platform includes comprehensive analytics powered by Reactive Network:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🏆 Hackathon Submission
+## 🙏 Acknowledgments
 
-This project was developed for the **Reactive Network Smart Contract Hackathon** and demonstrates:
-
-- **Maximum Reactive Network Usage**: Extensive integration with Reactive Network for cross-chain event processing
-- **Real-World Utility**: Genuine DeFi education and gaming utility
-- **Innovation**: Novel approach to learn-to-earn gaming with automated reward systems
-- **Technical Excellence**: Production-ready code with comprehensive testing and documentation
+- Built on [Avalanche](https://www.avax.network/)
+- UI components from [shadcn/ui](https://ui.shadcn.com/)
+- Icons from [Lucide](https://lucide.dev/)
 
 ---
 
-**Built with ❤️ for the Reactive Network Hackathon**
+**Built with ❤️ for the Avalanche ecosystem**
+
+For questions or support, please open an issue or visit our [documentation](./docs/).
