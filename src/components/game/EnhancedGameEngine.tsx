@@ -58,14 +58,80 @@ const EnhancedGameEngine = forwardRef<GameEngineRef, GameEngineProps>(({
   const [gameObjects, setGameObjects] = useState<GameObject[]>([]);
   const [currentScore, setCurrentScore] = useState(0);
   const [particles, setParticles] = useState<any[]>([]);
+  const [gameTimer, setGameTimer] = useState(0);
+  const [survivalDifficultyMultiplier, setSurvivalDifficultyMultiplier] = useState(1);
 
   // Game configuration
   const CANVAS_WIDTH = 1200;
   const CANVAS_HEIGHT = 800;
   const PLAYER_SIZE = 40;
-  const OBSTACLE_SPAWN_RATE = 0.02;
-  const COLLECTIBLE_SPAWN_RATE = 0.01;
-  const POWERUP_SPAWN_RATE = 0.005;
+
+  // Mode-specific configurations
+  const getModeConfig = () => {
+    switch (gameState.mode) {
+      case 'classic':
+        return {
+          obstacleSpawnRate: 0.02,
+          collectibleSpawnRate: 0.01,
+          powerupSpawnRate: 0.005,
+          lives: 3,
+          description: 'Traditional endless runner'
+        };
+      case 'tutorial':
+        return {
+          obstacleSpawnRate: 0.01,
+          collectibleSpawnRate: 0.02,
+          powerupSpawnRate: 0.01,
+          lives: 5,
+          description: 'Learn the basics with extra lives'
+        };
+      case 'challenge':
+        return {
+          obstacleSpawnRate: 0.03,
+          collectibleSpawnRate: 0.008,
+          powerupSpawnRate: 0.003,
+          lives: 2,
+          description: 'Hard mode with special objectives'
+        };
+      case 'quest':
+        return {
+          obstacleSpawnRate: 0.02,
+          collectibleSpawnRate: 0.015,
+          powerupSpawnRate: 0.008,
+          lives: 3,
+          description: 'Complete blockchain quests'
+        };
+      case 'speedrun':
+        return {
+          obstacleSpawnRate: 0.025,
+          collectibleSpawnRate: 0.012,
+          powerupSpawnRate: 0.006,
+          lives: 1,
+          description: 'Race against time - one life only!'
+        };
+      case 'survival':
+        return {
+          obstacleSpawnRate: 0.035,
+          collectibleSpawnRate: 0.005,
+          powerupSpawnRate: 0.002,
+          lives: 1,
+          description: 'Last as long as possible - one life!'
+        };
+      default:
+        return {
+          obstacleSpawnRate: 0.02,
+          collectibleSpawnRate: 0.01,
+          powerupSpawnRate: 0.005,
+          lives: 3,
+          description: 'Traditional endless runner'
+        };
+    }
+  };
+
+  const modeConfig = getModeConfig();
+  const OBSTACLE_SPAWN_RATE = modeConfig.obstacleSpawnRate;
+  const COLLECTIBLE_SPAWN_RATE = modeConfig.collectibleSpawnRate;
+  const POWERUP_SPAWN_RATE = modeConfig.powerupSpawnRate;
 
   // Expose methods to parent component
   useImperativeHandle(ref, () => ({
@@ -109,6 +175,8 @@ const EnhancedGameEngine = forwardRef<GameEngineRef, GameEngineProps>(({
     setGameObjects([player]);
     setCurrentScore(0);
     setParticles([]);
+    setGameTimer(0);
+    setSurvivalDifficultyMultiplier(1);
   }, []);
 
   // Create particle effect
@@ -139,29 +207,45 @@ const EnhancedGameEngine = forwardRef<GameEngineRef, GameEngineProps>(({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Update game timer (for speedrun mode)
+    if (gameState.mode === 'speedrun') {
+      setGameTimer(prev => prev + 1 / 60); // Assuming 60 FPS
+    }
+
+    // Increase difficulty over time in survival mode
+    if (gameState.mode === 'survival') {
+      setSurvivalDifficultyMultiplier(prev => prev + 0.0001);
+    }
+
     // Update game objects
     updateGameObjects();
-    
+
     // Spawn new objects
     spawnObjects();
-    
+
     // Check collisions
     checkCollisions();
-    
+
     // Update particles
     updateParticles();
-    
+
     // Render frame
     render(ctx);
-    
+
     // Check game over conditions
     if (gameState.lives <= 0) {
       onGameEnd(currentScore);
       return;
     }
 
+    // Speedrun mode: check time limit (e.g., 60 seconds)
+    if (gameState.mode === 'speedrun' && gameTimer >= 60) {
+      onGameEnd(currentScore);
+      return;
+    }
+
     animationRef.current = requestAnimationFrame(gameLoop);
-  }, [gameState, gameObjects, currentScore, isPaused]);
+  }, [gameState, gameObjects, currentScore, isPaused, gameTimer]);
 
   const updateGameObjects = () => {
     setGameObjects(prev => prev.map(obj => {
@@ -188,14 +272,17 @@ const EnhancedGameEngine = forwardRef<GameEngineRef, GameEngineProps>(({
   };
 
   const spawnObjects = () => {
+    // Apply survival mode difficulty multiplier
+    const difficultyMod = gameState.mode === 'survival' ? survivalDifficultyMultiplier : 1;
+
     // Spawn obstacles
-    if (Math.random() < OBSTACLE_SPAWN_RATE * gameState.level) {
+    if (Math.random() < OBSTACLE_SPAWN_RATE * gameState.level * difficultyMod) {
       const obstacle: GameObject = {
         x: CANVAS_WIDTH,
         y: Math.random() * (CANVAS_HEIGHT - 40),
         width: 30 + Math.random() * 20,
         height: 30 + Math.random() * 20,
-        vx: -gameState.speed,
+        vx: -gameState.speed * (gameState.mode === 'speedrun' ? 1.5 : 1),
         vy: 0,
         type: 'obstacle',
         color: '#EF4444',
@@ -212,12 +299,12 @@ const EnhancedGameEngine = forwardRef<GameEngineRef, GameEngineProps>(({
         y: Math.random() * (CANVAS_HEIGHT - 20),
         width: 20,
         height: 20,
-        vx: -gameState.speed * 0.8,
+        vx: -gameState.speed * 0.8 * (gameState.mode === 'speedrun' ? 1.5 : 1),
         vy: 0,
         type: 'collectible',
         color: '#F59E0B',
         active: true,
-        value: 100,
+        value: gameState.mode === 'speedrun' ? 200 : 100,
         animation: 0
       };
       setGameObjects(prev => [...prev, collectible]);
@@ -230,7 +317,7 @@ const EnhancedGameEngine = forwardRef<GameEngineRef, GameEngineProps>(({
         y: Math.random() * (CANVAS_HEIGHT - 25),
         width: 25,
         height: 25,
-        vx: -gameState.speed * 0.6,
+        vx: -gameState.speed * 0.6 * (gameState.mode === 'speedrun' ? 1.5 : 1),
         vy: 0,
         type: 'powerup',
         color: '#10B981',
@@ -434,17 +521,69 @@ const EnhancedGameEngine = forwardRef<GameEngineRef, GameEngineProps>(({
     ctx.fillStyle = '#FFFFFF';
     ctx.font = 'bold 32px Arial';
     ctx.fillText(`Score: ${currentScore.toLocaleString()}`, 30, 50);
-    
+
     // Lives with heart icons
     ctx.shadowBlur = 5;
     ctx.fillStyle = '#EF4444';
     ctx.font = 'bold 24px Arial';
     ctx.fillText(`Lives: ${'❤️'.repeat(gameState.lives)}`, 30, 90);
-    
+
     // Level indicator
     ctx.fillStyle = '#3B82F6';
     ctx.fillText(`Level: ${gameState.level}`, 30, 130);
-    
+
+    // Game Mode Display
+    const modeIcons: Record<string, string> = {
+      classic: '🏃',
+      tutorial: '📚',
+      challenge: '🎯',
+      quest: '⚔️',
+      speedrun: '⚡',
+      survival: '🛡️'
+    };
+
+    const modeColors: Record<string, string> = {
+      classic: '#10B981',
+      tutorial: '#6366F1',
+      challenge: '#F59E0B',
+      quest: '#8B5CF6',
+      speedrun: '#EF4444',
+      survival: '#EC4899'
+    };
+
+    ctx.shadowColor = modeColors[gameState.mode] || '#10B981';
+    ctx.shadowBlur = 8;
+    ctx.fillStyle = modeColors[gameState.mode] || '#10B981';
+    ctx.font = 'bold 24px Arial';
+    ctx.fillText(`${modeIcons[gameState.mode] || '🎮'} ${gameState.mode.toUpperCase()}`, CANVAS_WIDTH - 250, 50);
+
+    // Mode description (smaller text)
+    ctx.shadowBlur = 3;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '14px Arial';
+    ctx.fillText(modeConfig.description, CANVAS_WIDTH - 350, 80);
+
+    // Speedrun timer
+    if (gameState.mode === 'speedrun') {
+      const timeLeft = Math.max(0, 60 - gameTimer);
+      const timerColor = timeLeft < 10 ? '#EF4444' : '#10B981';
+      ctx.shadowColor = timerColor;
+      ctx.shadowBlur = 10;
+      ctx.fillStyle = timerColor;
+      ctx.font = 'bold 36px Arial';
+      ctx.fillText(`⏱️ ${timeLeft.toFixed(1)}s`, CANVAS_WIDTH / 2 - 80, 60);
+    }
+
+    // Survival difficulty indicator
+    if (gameState.mode === 'survival') {
+      const difficultyPercent = Math.min(100, (survivalDifficultyMultiplier - 1) * 100);
+      ctx.shadowColor = '#EC4899';
+      ctx.shadowBlur = 8;
+      ctx.fillStyle = '#EC4899';
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText(`Difficulty: ${difficultyPercent.toFixed(0)}%`, CANVAS_WIDTH / 2 - 80, 60);
+    }
+
     ctx.shadowBlur = 0;
   };
 

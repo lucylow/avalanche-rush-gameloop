@@ -100,79 +100,67 @@ export function NFTDashboard() {
     <div className="container mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              NFT Dashboard
-            </h1>
-            <p className="text-muted-foreground">
-              Manage your collection, open loot boxes, and trade on the marketplace
-            </p>
-          </div>
-          <Button
-            variant={useMockDataMode ? "default" : "outline"}
-            onClick={toggleMockData}
-            className="flex items-center gap-2"
-          >
-            <Database className="w-4 h-4" />
-            {useMockDataMode ? "Using Mock Data" : "Use Mock Data"}
-          </Button>
-        </div>
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          NFT Dashboard
+        </h1>
+        <p className="text-muted-foreground">
+          Manage your collection, open loot boxes, and trade on the marketplace
+        </p>
       </div>
 
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 border-purple-200">
+        <Card className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 border-purple-200 dark:border-purple-800">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total NFTs</CardTitle>
-            <Trophy className="h-4 w-4 text-purple-600" />
+            <CardTitle className="text-sm font-medium text-purple-900 dark:text-purple-100">Total NFTs</CardTitle>
+            <Trophy className="h-4 w-4 text-purple-600 dark:text-purple-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{displayStats?.totalNFTs || 0}</div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <div className="text-2xl font-bold text-purple-900 dark:text-purple-100">{displayStats?.totalNFTs || 0}</div>
+            <p className="text-xs text-purple-700 dark:text-purple-300 mt-1">
               {displayStats?.achievementCount || 0} achievements
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950 border-blue-200">
+        <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950 border-blue-200 dark:border-blue-800">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Active Power</CardTitle>
-            <Zap className="h-4 w-4 text-blue-600" />
+            <CardTitle className="text-sm font-medium text-blue-900 dark:text-blue-100">Active Power</CardTitle>
+            <Zap className="h-4 w-4 text-blue-600 dark:text-blue-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">+{useMockDataMode ? 25 : powerBonus}%</div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">+{useMockDataMode ? 25 : powerBonus}%</div>
+            <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
               {displayStats?.powerUpCount || 0} power-ups owned
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-orange-950 dark:to-yellow-950 border-orange-200">
+        <Card className="bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-orange-950 dark:to-yellow-950 border-orange-200 dark:border-orange-800">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Highest Level</CardTitle>
-            <TrendingUp className="h-4 w-4 text-orange-600" />
+            <CardTitle className="text-sm font-medium text-orange-900 dark:text-orange-100">Highest Level</CardTitle>
+            <TrendingUp className="h-4 w-4 text-orange-600 dark:text-orange-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-600">
+            <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
               {displayStats?.highestLevel || 0}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-orange-700 dark:text-orange-300 mt-1">
               {displayStats?.totalExperience || 0} total XP
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border-green-200">
+        <Card className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border-green-200 dark:border-green-800">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Collection Value</CardTitle>
-            <ShoppingBag className="h-4 w-4 text-green-600" />
+            <CardTitle className="text-sm font-medium text-green-900 dark:text-green-100">Collection Value</CardTitle>
+            <ShoppingBag className="h-4 w-4 text-green-600 dark:text-green-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-2xl font-bold text-green-600 dark:text-green-400">
               {collectionValue.toFixed(2)}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-green-700 dark:text-green-300 mt-1">
               RUSH tokens
             </p>
           </CardContent>
@@ -369,6 +357,20 @@ export function NFTDashboard() {
           </Card>
         </div>
       )}
+
+      {/* Mock Data Toggle - Bottom Right (Hidden-ish) */}
+      <div className="fixed bottom-4 right-4 z-40">
+        <Button
+          variant={useMockDataMode ? "default" : "outline"}
+          onClick={toggleMockData}
+          size="sm"
+          className="flex items-center gap-2 opacity-30 hover:opacity-100 transition-opacity shadow-lg"
+          title="Toggle between real and mock data"
+        >
+          <Database className="w-3 h-3" />
+          <span className="text-xs">{useMockDataMode ? "Mock" : "Real"}</span>
+        </Button>
+      </div>
     </div>
   );
 }
