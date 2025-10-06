@@ -67,8 +67,12 @@ export function useEnhancedScoring(
   contractAddress?: string
 ) {
   const { address } = useAccount();
-  const provider = useProvider();
-  const { data: signer } = useSigner();
+  const publicClient = usePublicClient();
+  const { data: walletClient } = useWalletClient();
+
+  // Aliases for backward compatibility (TODO: migrate to viem)
+  const provider = publicClient as any;
+  const signer = walletClient as any;
 
   const [scoreData, setScoreData] = useState<ScoreData>({
     currentScore: 0,

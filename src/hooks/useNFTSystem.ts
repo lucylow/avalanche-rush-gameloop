@@ -123,6 +123,10 @@ export function useNFTSystem() {
   const publicClient = usePublicClient();
   const { data: walletClient } = useWalletClient();
 
+  // Aliases for backward compatibility (TODO: migrate to viem)
+  const provider = publicClient as any;
+  const signer = walletClient as any;
+
   const [playerNFTs, setPlayerNFTs] = useState<NFTDetails[]>([]);
   const [playerCharacters, setPlayerCharacters] = useState<NFTCharacterDetails[]>([]);
   const [playerStats, setPlayerStats] = useState<PlayerStats | null>(null);

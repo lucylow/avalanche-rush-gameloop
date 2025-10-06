@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useMockDataDemo } from '../hooks/useMockData';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
@@ -26,11 +26,9 @@ import {
   TrendingUp,
   BarChart3
 } from 'lucide-react';
-import MockDataToggle from '../components/MockDataToggle';
 
 const MockDataDemo: React.FC = () => {
   const mockData = useMockDataDemo();
-  const [showMockDataToggle, setShowMockDataToggle] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
 
   const {
@@ -88,34 +86,9 @@ const MockDataDemo: React.FC = () => {
                     <Database className="h-8 w-8 text-white" />
                   </div>
                   <div>
-                    <h1 className="text-3xl font-bold text-white">Avalanche Rush Mock Data Demo</h1>
-                    <p className="text-purple-200">Comprehensive demo data for hackathon presentation</p>
+                    <h1 className="text-3xl font-bold text-white">Avalanche Rush Dashboard</h1>
+                    <p className="text-purple-200">Comprehensive analytics and player statistics</p>
                   </div>
-                </div>
-                <div className="flex gap-3">
-                  <Badge 
-                    variant="outline" 
-                    className={`border-2 ${mockData.isMockDataEnabled ? 'border-green-400 text-green-400' : 'border-red-400 text-red-400'}`}
-                  >
-                    {mockData.isMockDataEnabled ? (
-                      <>
-                        <Eye className="h-3 w-3 mr-1" />
-                        Mock Data ON
-                      </>
-                    ) : (
-                      <>
-                        <EyeOff className="h-3 w-3 mr-1" />
-                        Mock Data OFF
-                      </>
-                    )}
-                  </Badge>
-                  <Button
-                    onClick={() => setShowMockDataToggle(true)}
-                    className="bg-purple-600 hover:bg-purple-700"
-                  >
-                    <Database className="h-4 w-4 mr-2" />
-                    Configure
-                  </Button>
                 </div>
               </div>
             </CardContent>
@@ -250,58 +223,6 @@ const MockDataDemo: React.FC = () => {
                 </CardContent>
               </Card>
             </div>
-
-            {/* Demo Controls */}
-            <Card className="bg-gradient-to-br from-purple-800/50 to-blue-800/50 border-purple-500/30">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center gap-2">
-                  <Play className="h-5 w-5" />
-                  Demo Controls
-                </CardTitle>
-                <CardDescription className="text-purple-200">
-                  Simulate live events for your demo presentation
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-3">
-                  <Button
-                    onClick={() => simulateLiveEvent('player_update')}
-                    className="bg-blue-600 hover:bg-blue-700"
-                  >
-                    <Users className="h-4 w-4 mr-2" />
-                    Player Update
-                  </Button>
-                  <Button
-                    onClick={() => simulateLiveEvent('quest_completed')}
-                    className="bg-green-600 hover:bg-green-700"
-                  >
-                    <Target className="h-4 w-4 mr-2" />
-                    Quest Complete
-                  </Button>
-                  <Button
-                    onClick={() => simulateLiveEvent('nft_minted')}
-                    className="bg-purple-600 hover:bg-purple-700"
-                  >
-                    <Award className="h-4 w-4 mr-2" />
-                    NFT Minted
-                  </Button>
-                  <Button
-                    onClick={() => simulateLiveEvent('tournament_update')}
-                    className="bg-orange-600 hover:bg-orange-700"
-                  >
-                    <Trophy className="h-4 w-4 mr-2" />
-                    Tournament Update
-                  </Button>
-                  <Button
-                    onClick={() => simulateLiveEvent('chat_message')}
-                    className="bg-pink-600 hover:bg-pink-700"
-                  >
-                    <MessageSquare className="h-4 w-4 mr-2" />
-                    Chat Message
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
           </TabsContent>
 
           {/* Players Tab */}
@@ -517,6 +438,85 @@ const MockDataDemo: React.FC = () => {
                 <CardContent className="space-y-4">
                   <div className="flex justify-between">
                     <span className="text-purple-200">Total Games</span>
+                    <span className="text-white font-semibold">{analytics.gameMetrics.totalGamesPlayed.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-purple-200">Average Score</span>
+                    <span className="text-white font-semibold">{analytics.gameMetrics.averageScore.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-purple-200">Highest Score</span>
+                    <span className="text-white font-semibold">{analytics.gameMetrics.highestScore.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-purple-200">Quest Completion</span>
+                    <span className="text-white font-semibold">{(analytics.userMetrics.questCompletionRate * 100).toFixed(1)}%</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Blockchain Metrics */}
+              <Card className="bg-gradient-to-br from-purple-800/50 to-blue-800/50 border-purple-500/30">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5" />
+                    Blockchain Metrics
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between">
+                    <span className="text-purple-200">Total Transactions</span>
+                    <span className="text-white font-semibold">{analytics.blockchainMetrics.totalTransactions.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-purple-200">Contract Interactions</span>
+                    <span className="text-white font-semibold">{analytics.blockchainMetrics.contractInteractions.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-purple-200">NFT Mints</span>
+                    <span className="text-white font-semibold">{analytics.blockchainMetrics.nftMints.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-purple-200">Token Transfers</span>
+                    <span className="text-white font-semibold">{analytics.blockchainMetrics.tokenTransfers.toLocaleString()}</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Rewards Distribution */}
+              {analytics.rewardsDistribution && (
+                <Card className="bg-gradient-to-br from-purple-800/50 to-blue-800/50 border-purple-500/30">
+                  <CardHeader>
+                    <CardTitle className="text-white flex items-center gap-2">
+                      <Gift className="h-5 w-5" />
+                      Rewards Distribution
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex justify-between">
+                      <span className="text-purple-200">Total Rewards</span>
+                      <span className="text-white font-semibold">{analytics.rewardsDistribution.totalRewards.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-purple-200">Average Reward</span>
+                      <span className="text-white font-semibold">{analytics.rewardsDistribution.averageReward.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-purple-200">Pending Claims</span>
+                      <span className="text-white font-semibold">{analytics.rewardsDistribution.pendingClaims}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+};
+
+export default MockDataDemo;
                     <span className="text-white font-semibold">{analytics.gameMetrics.totalGamesPlayed.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
