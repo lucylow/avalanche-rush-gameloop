@@ -19,6 +19,31 @@ import { Trophy, Zap, ShoppingBag, Gift, TrendingUp, Sparkles, Database } from '
  * - Statistics
  */
 
+// Helper functions for rarity colors
+const getRarityColor = (rarity: string) => {
+  const rarityLower = rarity.toLowerCase();
+  switch (rarityLower) {
+    case 'common': return 'text-gray-600 dark:text-gray-400';
+    case 'rare': return 'text-blue-600 dark:text-blue-400';
+    case 'epic': return 'text-purple-600 dark:text-purple-400';
+    case 'legendary': return 'text-orange-600 dark:text-orange-400';
+    case 'mythic': return 'text-pink-600 dark:text-pink-400';
+    default: return 'text-gray-600 dark:text-gray-400';
+  }
+};
+
+const getRarityBg = (rarity: string) => {
+  const rarityLower = rarity.toLowerCase();
+  switch (rarityLower) {
+    case 'common': return 'bg-gray-500/20';
+    case 'rare': return 'bg-blue-500/20';
+    case 'epic': return 'bg-purple-500/20';
+    case 'legendary': return 'bg-orange-500/20';
+    case 'mythic': return 'bg-pink-500/20';
+    default: return 'bg-gray-500/20';
+  }
+};
+
 export function NFTDashboard() {
   const {
     playerNFTs,
@@ -103,9 +128,9 @@ export function NFTDashboard() {
             <Trophy className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{playerStats?.totalNFTs || 0}</div>
+            <div className="text-2xl font-bold">{displayStats?.totalNFTs || 0}</div>
             <p className="text-xs text-muted-foreground mt-1">
-              {playerStats?.achievementCount || 0} achievements
+              {displayStats?.achievementCount || 0} achievements
             </p>
           </CardContent>
         </Card>
@@ -116,9 +141,9 @@ export function NFTDashboard() {
             <Zap className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">+{powerBonus}%</div>
+            <div className="text-2xl font-bold text-blue-600">+{useMockDataMode ? 25 : powerBonus}%</div>
             <p className="text-xs text-muted-foreground mt-1">
-              {playerStats?.powerUpCount || 0} power-ups owned
+              {displayStats?.powerUpCount || 0} power-ups owned
             </p>
           </CardContent>
         </Card>
@@ -130,10 +155,10 @@ export function NFTDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">
-              {playerStats?.highestLevel || 0}
+              {displayStats?.highestLevel || 0}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              {playerStats?.totalExperience || 0} total XP
+              {displayStats?.totalExperience || 0} total XP
             </p>
           </CardContent>
         </Card>
@@ -166,21 +191,32 @@ export function NFTDashboard() {
           <CardContent>
             <div className="flex gap-4 flex-wrap">
               {Object.entries(rarityDistribution).map(([rarity, count]) => {
-                const rarityNames = ['Common', 'Rare', 'Epic', 'Legendary', 'Mythic'];
-                const rarityColors = [
-                  'bg-gray-500',
-                  'bg-blue-500',
-                  'bg-purple-500',
-                  'bg-orange-500',
-                  'bg-pink-500'
-                ];
+                const rarityNames = useMockDataMode
+                  ? { 'Common': 'Common', 'Rare': 'Rare', 'Epic': 'Epic', 'Legendary': 'Legendary', 'Mythic': 'Mythic' }
+                  : ['Common', 'Rare', 'Epic', 'Legendary', 'Mythic'];
+
+                const rarityColors: Record<string, string> = {
+                  'Common': 'bg-gray-500',
+                  'Rare': 'bg-blue-500',
+                  'Epic': 'bg-purple-500',
+                  'Legendary': 'bg-orange-500',
+                  'Mythic': 'bg-pink-500'
+                };
+
+                const rarityName = useMockDataMode
+                  ? rarity.charAt(0).toUpperCase() + rarity.slice(1)
+                  : (rarityNames as string[])[parseInt(rarity)];
+
+                const rarityColor = useMockDataMode
+                  ? (rarityColors[rarityName] || 'bg-gray-500')
+                  : (Object.values(rarityColors)[parseInt(rarity)] || 'bg-gray-500');
 
                 return (
                   <Badge
                     key={rarity}
-                    className={`${rarityColors[parseInt(rarity)]} text-white px-4 py-2`}
+                    className={`${rarityColor} text-white px-4 py-2`}
                   >
-                    {rarityNames[parseInt(rarity)]}: {count}
+                    {rarityName}: {count}
                   </Badge>
                 );
               })}
@@ -208,7 +244,52 @@ export function NFTDashboard() {
 
         {/* NFT Collection Tab */}
         <TabsContent value="collection" className="mt-6">
-          <NFTGallery />
+          {useMockDataMode ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {displayNFTs.map((nft: any) => (
+                <Card
+                  key={nft.tokenId}
+                  className="hover:shadow-lg transition-shadow bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950"
+                >
+                  <CardHeader>
+                    <div className="aspect-square bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center text-6xl mb-4">
+                      {nft.category === 'achievement' ? '🏆' :
+                       nft.category === 'power_up' ? '⚡' :
+                       nft.category === 'cosmetic' ? '🎨' : '🎮'}
+                    </div>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle>{nft.name}</CardTitle>
+                        <CardDescription className="text-xs mt-1">
+                          Token #{nft.tokenId}
+                        </CardDescription>
+                      </div>
+                      <Badge className={`${getRarityBg(nft.rarity)} ${getRarityColor(nft.rarity)} border-0`}>
+                        {nft.rarity.charAt(0).toUpperCase() + nft.rarity.slice(1)}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <p className="text-sm text-muted-foreground">{nft.description}</p>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">Level</span>
+                      <span className="font-semibold">{nft.level || 1}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">Power</span>
+                      <span className="font-semibold text-blue-600">+{nft.power || 10}%</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">Owner</span>
+                      <span className="font-semibold text-xs">{nft.owner.slice(0, 6)}...{nft.owner.slice(-4)}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <NFTGallery />
+          )}
         </TabsContent>
 
         {/* Loot Boxes Tab */}
@@ -218,7 +299,62 @@ export function NFTDashboard() {
 
         {/* Marketplace Tab */}
         <TabsContent value="marketplace" className="mt-6">
-          <MarketplaceView listings={marketListings} />
+          {useMockDataMode ? (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="text-2xl font-bold">Mock Marketplace</h3>
+                  <p className="text-muted-foreground">
+                    {mockData.nfts.length} NFTs in collection (demo mode)
+                  </p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {mockData.nfts.slice(0, 6).map((nft: any) => (
+                  <Card
+                    key={nft.tokenId}
+                    className="hover:shadow-lg transition-shadow"
+                  >
+                    <CardHeader>
+                      <div className="aspect-square bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center text-5xl mb-3">
+                        {nft.category === 'achievement' ? '🏆' :
+                         nft.category === 'power_up' ? '⚡' :
+                         nft.category === 'cosmetic' ? '🎨' : '🎮'}
+                      </div>
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <CardTitle className="text-base">{nft.name}</CardTitle>
+                          <CardDescription className="text-xs mt-1">
+                            Token #{nft.tokenId}
+                          </CardDescription>
+                        </div>
+                        <Badge variant="outline" className="bg-green-50">
+                          For Sale
+                        </Badge>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-2xl font-bold text-green-600">
+                          {((nft.power || 10) * 10).toFixed(2)}
+                        </span>
+                        <span className="text-muted-foreground">RUSH</span>
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        Listed by {nft.owner.slice(0, 6)}...{nft.owner.slice(-4)}
+                      </div>
+                      <Button className="w-full" disabled>
+                        <ShoppingBag className="w-4 h-4 mr-2" />
+                        Demo Mode - View Only
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <MarketplaceView listings={marketListings} />
+          )}
         </TabsContent>
       </Tabs>
 
@@ -253,7 +389,6 @@ interface MarketplaceViewProps {
 
 function MarketplaceView({ listings }: MarketplaceViewProps) {
   const { buyNFT, isLoading } = useNFTSystem();
-  const [selectedListing, setSelectedListing] = useState<number | null>(null);
 
   const handleBuy = async (listingId: number, price: string) => {
     try {
@@ -293,9 +428,7 @@ function MarketplaceView({ listings }: MarketplaceViewProps) {
         {listings.map((listing) => (
           <Card
             key={listing.listingId}
-            className={`hover:shadow-lg transition-shadow ${
-              selectedListing === listing.listingId ? 'ring-2 ring-primary' : ''
-            }`}
+            className="hover:shadow-lg transition-shadow"
           >
             <CardHeader>
               <div className="flex justify-between items-start">
