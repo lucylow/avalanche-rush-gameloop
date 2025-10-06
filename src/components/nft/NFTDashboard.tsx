@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import NFTGallery from './NFTGallery';
 import LootBoxSystem from './LootBoxSystem';
 import { useNFTSystem } from '@/hooks/useNFTSystem';
-import { Trophy, Zap, ShoppingBag, Gift, TrendingUp, Sparkles } from 'lucide-react';
+import { useMockData } from '@/hooks/useMockData';
+import { Trophy, Zap, ShoppingBag, Gift, TrendingUp, Sparkles, Database } from 'lucide-react';
 
 /**
  * Comprehensive NFT Dashboard
@@ -27,31 +28,71 @@ export function NFTDashboard() {
     isLoading
   } = useNFTSystem();
 
+  const mockData = useMockData();
   const [activeTab, setActiveTab] = useState('collection');
+  const [useMockDataMode, setUseMockDataMode] = useState(mockData.isMockDataEnabled);
+
+  // Determine which data to use
+  const displayNFTs = useMockDataMode ? mockData.nfts : playerNFTs;
+  const displayStats = useMockDataMode
+    ? {
+        totalNFTs: mockData.nfts.length,
+        achievementCount: mockData.nfts.filter((nft: any) => nft.category === 'achievement').length,
+        powerUpCount: mockData.nfts.filter((nft: any) => nft.category === 'power_up').length,
+        highestLevel: Math.max(...mockData.nfts.map((nft: any) => nft.level || 0)),
+        totalExperience: mockData.nfts.reduce((sum: number, nft: any) => sum + (nft.experience || 0), 0)
+      }
+    : playerStats;
 
   // Calculate collection value
-  const collectionValue = playerNFTs.reduce((total, nft) => {
-    const listing = marketListings.find(l => l.tokenId === nft.tokenId);
-    return total + (listing ? parseFloat(listing.price) : 0);
-  }, 0);
+  const collectionValue = useMockDataMode
+    ? displayNFTs.reduce((total: number, nft: any) => total + (nft.power || 10) * 100, 0)
+    : playerNFTs.reduce((total, nft) => {
+        const listing = marketListings.find(l => l.tokenId === nft.tokenId);
+        return total + (listing ? parseFloat(listing.price) : 0);
+      }, 0);
 
   // Get rarity distribution
-  const rarityDistribution = playerNFTs.reduce((acc, nft) => {
-    const rarity = nft.metadata.rarity;
-    acc[rarity] = (acc[rarity] || 0) + 1;
-    return acc;
-  }, {} as Record<number, number>);
+  const rarityDistribution = useMockDataMode
+    ? displayNFTs.reduce((acc: Record<string, number>, nft: any) => {
+        const rarity = nft.rarity;
+        acc[rarity] = (acc[rarity] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>)
+    : playerNFTs.reduce((acc, nft) => {
+        const rarity = nft.metadata.rarity;
+        acc[rarity] = (acc[rarity] || 0) + 1;
+        return acc;
+      }, {} as Record<number, number>);
+
+  // Mock data toggle handler
+  const toggleMockData = () => {
+    mockData.toggleMockData();
+    setUseMockDataMode(!useMockDataMode);
+  };
 
   return (
     <div className="container mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="space-y-2">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-          NFT Dashboard
-        </h1>
-        <p className="text-muted-foreground">
-          Manage your collection, open loot boxes, and trade on the marketplace
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              NFT Dashboard
+            </h1>
+            <p className="text-muted-foreground">
+              Manage your collection, open loot boxes, and trade on the marketplace
+            </p>
+          </div>
+          <Button
+            variant={useMockDataMode ? "default" : "outline"}
+            onClick={toggleMockData}
+            className="flex items-center gap-2"
+          >
+            <Database className="w-4 h-4" />
+            {useMockDataMode ? "Using Mock Data" : "Use Mock Data"}
+          </Button>
+        </div>
       </div>
 
       {/* Stats Overview */}

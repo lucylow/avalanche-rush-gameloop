@@ -410,25 +410,82 @@ const LearnWeb3Page: React.FC = () => {
           ))}
         </div>
 
+        {/* Leaderboard Preview */}
+        <Card className="bg-gradient-to-r from-indigo-900/50 to-purple-900/50 border-indigo-500/30">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center gap-2">
+              <Trophy className="h-6 w-6 text-yellow-400" />
+              Top Learners
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {players.slice(0, 3).map((player, index) => (
+                <div
+                  key={player.address}
+                  className="flex items-center gap-3 p-4 bg-white/5 rounded-lg border border-purple-500/20"
+                >
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg ${
+                    index === 0 ? 'bg-yellow-500 text-yellow-900' :
+                    index === 1 ? 'bg-gray-400 text-gray-900' :
+                    'bg-amber-700 text-amber-100'
+                  }`}>
+                    {index + 1}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-white font-semibold">{player.username}</p>
+                    <p className="text-sm text-gray-300">{player.level} lessons completed</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-yellow-400 font-bold">{player.totalScore}</p>
+                    <p className="text-xs text-gray-400">XP</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Rewards Info */}
         <Card className="bg-gradient-to-r from-amber-900/50 to-orange-900/50 border-amber-500/30">
           <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <Award className="h-12 w-12 text-amber-400" />
-              <div className="flex-1">
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <Award className="h-12 w-12 text-amber-400 flex-shrink-0" />
+              <div className="flex-1 text-center md:text-left">
                 <h3 className="text-xl font-semibold text-white mb-1">
                   Earn While You Learn
                 </h3>
                 <p className="text-gray-300">
-                  Complete lessons to earn XP, unlock achievements, and climb the leaderboard!
+                  Complete lessons to earn XP and RUSH tokens, unlock achievements, and climb the leaderboard!
+                  The more you learn, the more you earn!
                 </p>
               </div>
-              <Button className="bg-amber-600 hover:bg-amber-700 text-white">
-                View Rewards
-              </Button>
+              <div className="flex gap-2">
+                <Button className="bg-amber-600 hover:bg-amber-700 text-white">
+                  View Rewards
+                </Button>
+                <Button variant="outline" className="border-amber-500 text-amber-200 hover:bg-amber-500/10">
+                  Leaderboard
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* Integration with Mock Data Notice */}
+        {quests.length > 0 && (
+          <Card className="bg-gradient-to-r from-blue-900/50 to-cyan-900/50 border-blue-500/30">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <p className="text-sm text-blue-200">
+                  <strong>Live Data:</strong> Connected to mock data system with {quests.length} active quests.
+                  Your progress syncs with the game!
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
